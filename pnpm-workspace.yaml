@@ -1,0 +1,11 @@
+packages:
+  - 'packages/*'
+
+# pnpm v11: allowBuilds replaces onlyBuiltDependencies / neverBuiltDependencies.
+# These packages require postinstall scripts for native compilation or code generation.
+allowBuilds:
+  '@prisma/client': true
+  '@prisma/engines': true
+  bcrypt: true
+  esbuild: true
+  prisma: true

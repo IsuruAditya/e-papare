@@ -1,0 +1,43 @@
+# Dependencies
+node_modules/
+.pnpm-store/
+
+# Build output
+dist/
+build/
+.next/
+out/
+
+# Environment files (never commit secrets)
+.env
+.env.*
+!.env.example
+
+# Local overrides
+*.local
+
+# OS artifacts
+.DS_Store
+Thumbs.db
+
+# Editor artifacts
+.vscode/settings.json
+*.swp
+*.swo
+
+# Test coverage
+coverage/
+.nyc_output/
+
+# Logs
+*.log
+logs/
+
+# TypeScript build info
+*.tsbuildinfo
+
+# Temporary files
+tmp/
+temp/
+
+# NOTE: prisma/migrations/ is intentionally NOT excluded — migrations are version-controlled
