@@ -1,0 +1,22 @@
+installation:
+  version: 6.12.4
+  installDate: 2026-10-16T08:05:41.971Z
+  lastUpdated: 2026-10-16T08:05:41.971Z
+  installShims: false
+modules:
+  - name: core
+    version: 6.12.4
+    installDate: 2026-10-16T08:05:41.232Z
+    lastUpdated: 2026-10-16T08:05:41.969Z
+    source: built-in
+    npmPackage: null
+    repoUrl: null
+  - name: bmm
+    version: 6.12.4
+    installDate: 2026-10-16T08:05:41.540Z
+    lastUpdated: 2026-10-16T08:05:41.971Z
+    source: built-in
+    npmPackage: null
+    repoUrl: null
+ides:
+  - kiro

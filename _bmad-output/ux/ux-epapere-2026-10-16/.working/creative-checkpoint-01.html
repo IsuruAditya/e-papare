@@ -1,0 +1,1451 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>e-Paperé — Creative Checkpoint 01</title>
+<style>
+  /* ─── Reset & Base ─────────────────────────────────────────── */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Inter', 'Segoe UI', system-ui, sans-serif; background: #f1f0fa; color: #1a1a2e; }
+  h1,h2,h3,h4,h5,h6 { font-weight: 600; }
+
+  /* ─── Layout ────────────────────────────────────────────────── */
+  .page { max-width: 1400px; margin: 0 auto; padding: 40px 24px 80px; }
+  .section-label {
+    font-size: 11px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase;
+    color: #3E3A98; margin-bottom: 12px; display: flex; align-items: center; gap: 8px;
+  }
+  .section-label::after { content:''; flex:1; height:1px; background:#e2e0f5; }
+  .section-title { font-size: 22px; font-weight: 700; margin-bottom: 6px; color: #1a1a2e; }
+  .section-sub { font-size: 14px; color: #6b6b8a; margin-bottom: 32px; max-width: 640px; line-height: 1.6; }
+  .gap-section { margin-top: 64px; }
+
+  /* ─── Color System ──────────────────────────────────────────── */
+  .color-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px,1fr)); gap: 12px; }
+  .swatch { border-radius: 10px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,.08); }
+  .swatch-color { height: 72px; }
+  .swatch-info { background: #fff; padding: 10px 12px; }
+  .swatch-name { font-size: 11px; font-weight: 600; color: #1a1a2e; }
+  .swatch-hex { font-size: 10px; color: #6b6b8a; font-family: monospace; margin-top: 2px; }
+  .swatch-token { font-size: 10px; color: #3E3A98; font-family: monospace; margin-top: 2px; }
+
+  /* ─── Dark Swatches ─────────────────────────────────────────── */
+  .swatch.dark .swatch-info { background: #1a1a2e; }
+  .swatch.dark .swatch-name { color: #e8e6ff; }
+  .swatch.dark .swatch-hex { color: #9090b8; }
+  .swatch.dark .swatch-token { color: #8b85e8; }
+
+  /* ─── Typography Specimen ───────────────────────────────────── */
+  .typo-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+  @media(max-width:768px){ .typo-grid { grid-template-columns: 1fr; } }
+  .typo-card {
+    background: #fff; border-radius: 12px; padding: 28px 32px;
+    border: 1px solid #e8e6ff; box-shadow: 0 1px 4px rgba(62,58,152,.06);
+  }
+  .typo-card-dark {
+    background: #1e1d3a; border: 1px solid #2e2c52;
+  }
+  .typo-label { font-size: 11px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: #9090b8; margin-bottom: 16px; }
+  .specimen-row { display: flex; align-items: baseline; gap: 16px; margin-bottom: 14px; padding-bottom: 14px; border-bottom: 1px solid #f0eeff; }
+  .typo-card-dark .specimen-row { border-bottom-color: #2e2c52; }
+  .specimen-size { font-size: 11px; color: #9090b8; width: 44px; flex-shrink: 0; }
+  .specimen-weight { font-size: 11px; color: #9090b8; width: 40px; flex-shrink: 0; }
+  .specimen-sample { color: #1a1a2e; }
+  .typo-card-dark .specimen-sample { color: #e8e6ff; }
+
+  .sinhala-sample {
+    font-family: 'Noto Sans Sinhala', 'Noto Sans', sans-serif;
+    line-height: 1.8;
+  }
+
+  /* ─── Screen Mockups ────────────────────────────────────────── */
+  .mockup-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+  @media(max-width:900px){ .mockup-grid { grid-template-columns: 1fr; } }
+
+  .mockup-frame {
+    border-radius: 14px; overflow: hidden;
+    box-shadow: 0 4px 24px rgba(62,58,152,.12), 0 1px 4px rgba(0,0,0,.06);
+  }
+  .mockup-bar {
+    display: flex; align-items: center; gap: 6px;
+    padding: 10px 14px; background: #f5f4fd; border-bottom: 1px solid #e8e6ff;
+  }
+  .dot { width:10px; height:10px; border-radius:50%; }
+  .dot-r { background:#f87171; } .dot-y { background:#fbbf24; } .dot-g { background:#34d399; }
+  .mockup-label { font-size: 11px; color: #9090b8; margin-left: auto; font-family: monospace; }
+
+  /* ──────────────────────────────────────────────────────────────
+     DIRECTION A — Light Student Dashboard
+  ─────────────────────────────────────────────────────────────── */
+  .sd-light {
+    background: #f8f7fd;
+    font-family: 'Inter','Segoe UI',system-ui,sans-serif;
+    font-size: 14px;
+  }
+  .sd-topbar {
+    background: #fff; border-bottom: 1px solid #e8e6ff;
+    padding: 0 24px; height: 56px;
+    display: flex; align-items: center; gap: 16px;
+  }
+  .sd-logo { display: flex; align-items: center; gap: 8px; text-decoration: none; }
+  .sd-logo-mark {
+    width: 32px; height: 32px; border-radius: 8px;
+    background: #3E3A98;
+    display: flex; align-items: center; justify-content: center;
+    color: #fff; font-weight: 800; font-size: 13px; letter-spacing: -.5px;
+  }
+  .sd-logo-text { font-weight: 700; font-size: 15px; color: #1a1a2e; }
+  .sd-logo-text span { color: #3E3A98; }
+  .sd-topbar-right { margin-left: auto; display: flex; align-items: center; gap: 12px; }
+  .sd-lang-btn {
+    font-size: 12px; font-weight: 600; color: #3E3A98;
+    border: 1.5px solid #c7c4f0; border-radius: 6px; padding: 4px 10px;
+    cursor: pointer; background: transparent;
+  }
+  .sd-theme-btn {
+    width: 32px; height: 32px; border-radius: 8px; background: #f0eeff;
+    border: none; cursor: pointer; display: flex; align-items: center; justify-content: center;
+    color: #3E3A98; font-size: 15px;
+  }
+  .sd-avatar {
+    width: 32px; height: 32px; border-radius: 50%; background: #3E3A98;
+    display: flex; align-items: center; justify-content: center;
+    color: #fff; font-weight: 700; font-size: 13px;
+  }
+  .sd-body { display: flex; height: auto; min-height: 520px; }
+  .sd-sidebar {
+    width: 200px; flex-shrink: 0; background: #fff;
+    border-right: 1px solid #e8e6ff; padding: 16px 0;
+  }
+  .sd-nav-item {
+    display: flex; align-items: center; gap: 10px;
+    padding: 9px 18px; font-size: 13px; font-weight: 500; color: #6b6b8a;
+    cursor: pointer; border-radius: 0;
+  }
+  .sd-nav-item.active { background: #f0eeff; color: #3E3A98; font-weight: 600; border-right: 3px solid #3E3A98; }
+  .sd-nav-icon { font-size: 16px; width: 20px; text-align: center; }
+  .sd-main { flex: 1; padding: 24px; overflow: hidden; }
+  .sd-greeting { font-size: 18px; font-weight: 700; color: #1a1a2e; margin-bottom: 4px; }
+  .sd-sub { font-size: 13px; color: #6b6b8a; margin-bottom: 20px; }
+  .sd-ep-badge {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: #f0eeff; border: 1px solid #c7c4f0; border-radius: 6px;
+    padding: 3px 10px; font-size: 11px; font-weight: 600; color: #3E3A98; margin-bottom: 20px;
+  }
+
+  /* Today's Class Banner */
+  .today-banner {
+    background: linear-gradient(135deg, #3E3A98 0%, #5551c8 100%);
+    border-radius: 12px; padding: 16px 20px; margin-bottom: 20px;
+    display: flex; align-items: center; gap: 16px; color: #fff;
+  }
+  .today-icon { font-size: 28px; }
+  .today-info { flex: 1; }
+  .today-title { font-size: 13px; font-weight: 700; opacity: .75; margin-bottom: 2px; }
+  .today-course { font-size: 15px; font-weight: 700; margin-bottom: 2px; }
+  .today-time { font-size: 12px; opacity: .8; }
+  .today-btn {
+    background: #fff; color: #3E3A98; border: none; border-radius: 8px;
+    padding: 8px 16px; font-size: 13px; font-weight: 700; cursor: pointer;
+    white-space: nowrap;
+  }
+
+  /* Cards Grid */
+  .sd-cards { display: grid; grid-template-columns: repeat(3,1fr); gap: 14px; margin-bottom: 20px; }
+  .sd-card {
+    background: #fff; border-radius: 10px; padding: 16px;
+    border: 1px solid #e8e6ff; box-shadow: 0 1px 3px rgba(62,58,152,.06);
+  }
+  .sd-card-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px; }
+  .sd-card-icon {
+    width: 36px; height: 36px; border-radius: 8px; background: #f0eeff;
+    display: flex; align-items: center; justify-content: center; font-size: 18px;
+  }
+  .sd-card-badge {
+    font-size: 10px; font-weight: 700; padding: 2px 7px; border-radius: 4px;
+    background: #dcfce7; color: #166534;
+  }
+  .sd-card-badge.warn { background: #fef9c3; color: #854d0e; }
+  .sd-card-badge.danger { background: #fee2e2; color: #991b1b; }
+  .sd-card-title { font-size: 12px; font-weight: 600; color: #1a1a2e; margin-bottom: 2px; }
+  .sd-card-detail { font-size: 11px; color: #6b6b8a; }
+  .sd-card-amount { font-size: 16px; font-weight: 700; color: #1a1a2e; margin-top: 6px; }
+
+  /* Courses List */
+  .sd-courses-title { font-size: 14px; font-weight: 700; color: #1a1a2e; margin-bottom: 12px; }
+  .course-row {
+    display: flex; align-items: center; gap: 12px;
+    background: #fff; border: 1px solid #e8e6ff; border-radius: 8px;
+    padding: 12px 14px; margin-bottom: 8px;
+  }
+  .course-dot { width: 8px; height: 8px; border-radius: 50%; background: #3E3A98; flex-shrink: 0; }
+  .course-dot.green { background: #22c55e; }
+  .course-info { flex: 1; }
+  .course-name { font-size: 13px; font-weight: 600; color: #1a1a2e; }
+  .course-meta { font-size: 11px; color: #6b6b8a; margin-top: 1px; }
+  .course-status {
+    font-size: 11px; font-weight: 600; padding: 3px 8px; border-radius: 4px;
+    background: #dcfce7; color: #166534;
+  }
+  .course-status.pending { background: #fef9c3; color: #854d0e; }
+
+  /* ──────────────────────────────────────────────────────────────
+     DIRECTION B — Dark Student Dashboard
+  ─────────────────────────────────────────────────────────────── */
+  .sd-dark {
+    background: #13122a;
+    font-family: 'Inter','Segoe UI',system-ui,sans-serif;
+    font-size: 14px;
+    color: #e0deff;
+  }
+  .sd-dark .sd-topbar { background: #1a1935; border-color: #2a2950; }
+  .sd-dark .sd-logo-text { color: #e0deff; }
+  .sd-dark .sd-lang-btn { border-color: #3a3870; color: #a09ee8; }
+  .sd-dark .sd-theme-btn { background: #252348; color: #a09ee8; }
+  .sd-dark .sd-avatar { background: #4a46c8; }
+  .sd-dark .sd-sidebar { background: #1a1935; border-color: #2a2950; }
+  .sd-dark .sd-nav-item { color: #8080a8; }
+  .sd-dark .sd-nav-item.active { background: #252348; color: #a09ee8; border-right-color: #6562e8; }
+  .sd-dark .sd-greeting { color: #e0deff; }
+  .sd-dark .sd-sub { color: #8080a8; }
+  .sd-dark .sd-ep-badge { background: #252348; border-color: #3a3870; color: #a09ee8; }
+  .sd-dark .today-banner { background: linear-gradient(135deg, #2d2a7a 0%, #4a46c8 100%); }
+  .sd-dark .sd-card { background: #1e1d3a; border-color: #2a2950; }
+  .sd-dark .sd-card-icon { background: #252348; }
+  .sd-dark .sd-card-title { color: #e0deff; }
+  .sd-dark .sd-card-detail { color: #8080a8; }
+  .sd-dark .sd-card-amount { color: #e0deff; }
+  .sd-dark .sd-courses-title { color: #e0deff; }
+  .sd-dark .course-row { background: #1e1d3a; border-color: #2a2950; }
+  .sd-dark .course-name { color: #e0deff; }
+  .sd-dark .course-meta { color: #8080a8; }
+
+  /* ──────────────────────────────────────────────────────────────
+     DIRECTION C — Admin Dashboard (Light)
+  ─────────────────────────────────────────────────────────────── */
+  .admin-wrap {
+    background: #f8f7fd;
+    font-family: 'Inter','Segoe UI',system-ui,sans-serif;
+    font-size: 13px;
+    display: flex; flex-direction: column;
+  }
+  .admin-topbar {
+    background: #fff; border-bottom: 1px solid #e8e6ff;
+    padding: 0 20px; height: 52px;
+    display: flex; align-items: center; gap: 14px; flex-shrink: 0;
+  }
+  .admin-topbar-title { font-size: 14px; font-weight: 700; color: #1a1a2e; }
+  .admin-topbar-right { margin-left: auto; display: flex; align-items: center; gap: 10px; }
+  .admin-badge {
+    font-size: 11px; font-weight: 700; padding: 3px 9px; border-radius: 5px;
+    background: #eae8ff; color: #3E3A98;
+  }
+  .admin-body { display: flex; flex: 1; }
+  .admin-sidebar {
+    width: 216px; flex-shrink: 0; background: #fff;
+    border-right: 1px solid #e8e6ff; padding: 16px 0; display: flex; flex-direction: column;
+  }
+  .admin-nav-section { font-size: 10px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: #b0aed8; padding: 14px 18px 6px; }
+  .admin-nav-item {
+    display: flex; align-items: center; gap: 9px;
+    padding: 8px 18px; font-size: 12.5px; font-weight: 500; color: #5a5a7a;
+    cursor: pointer;
+  }
+  .admin-nav-item:hover { background: #f5f4fd; color: #3E3A98; }
+  .admin-nav-item.active { background: #eae8ff; color: #3E3A98; font-weight: 600; border-left: 3px solid #3E3A98; }
+  .admin-nav-item .icon { font-size: 15px; width: 18px; text-align: center; }
+  .admin-main { flex: 1; padding: 20px 24px; overflow: hidden; }
+
+  /* Stats row */
+  .stats-row { display: grid; grid-template-columns: repeat(4,1fr); gap: 14px; margin-bottom: 20px; }
+  .stat-card {
+    background: #fff; border-radius: 10px; padding: 16px 18px;
+    border: 1px solid #e8e6ff; box-shadow: 0 1px 3px rgba(62,58,152,.05);
+  }
+  .stat-label { font-size: 11px; color: #8080a8; font-weight: 500; margin-bottom: 6px; }
+  .stat-value { font-size: 22px; font-weight: 800; color: #1a1a2e; }
+  .stat-delta { font-size: 11px; color: #22c55e; font-weight: 600; margin-top: 3px; }
+  .stat-delta.neg { color: #ef4444; }
+
+  /* Table */
+  .table-card {
+    background: #fff; border-radius: 10px; border: 1px solid #e8e6ff;
+    box-shadow: 0 1px 3px rgba(62,58,152,.05); overflow: hidden;
+  }
+  .table-header {
+    padding: 14px 18px; border-bottom: 1px solid #f0eeff;
+    display: flex; align-items: center; gap: 12px;
+  }
+  .table-title { font-size: 13px; font-weight: 700; color: #1a1a2e; }
+  .table-search {
+    margin-left: auto; display: flex; align-items: center;
+    border: 1px solid #e2e0f5; border-radius: 7px; padding: 5px 10px; gap: 6px;
+    background: #fafafe;
+  }
+  .table-search input {
+    border: none; background: transparent; font-size: 12px; outline: none;
+    color: #1a1a2e; width: 140px;
+  }
+  .table-search input::placeholder { color: #b0aed8; }
+  table { width: 100%; border-collapse: collapse; }
+  thead th {
+    font-size: 11px; font-weight: 600; color: #8080a8; text-align: left;
+    padding: 10px 18px; background: #fafafe; border-bottom: 1px solid #f0eeff;
+    white-space: nowrap;
+  }
+  tbody tr { border-bottom: 1px solid #f5f4fd; }
+  tbody tr:last-child { border-bottom: none; }
+  tbody tr:hover { background: #fafafe; }
+  tbody td { padding: 11px 18px; font-size: 12.5px; color: #1a1a2e; vertical-align: middle; }
+
+  .status-pill {
+    display: inline-flex; align-items: center; gap: 4px;
+    font-size: 11px; font-weight: 600; padding: 3px 8px; border-radius: 20px;
+  }
+  .status-pill.active { background: #dcfce7; color: #15803d; }
+  .status-pill.pending { background: #fef3c7; color: #92400e; }
+  .status-pill.suspended { background: #fee2e2; color: #991b1b; }
+  .status-pill.review { background: #ede9fe; color: #5b21b6; }
+  .dot-indicator { width: 7px; height: 7px; border-radius: 50%; }
+  .dot-indicator.active { background: #22c55e; }
+  .dot-indicator.pending { background: #f59e0b; }
+  .dot-indicator.suspended { background: #ef4444; }
+  .dot-indicator.review { background: #8b5cf6; }
+
+  .action-btn {
+    font-size: 11px; font-weight: 600; padding: 4px 10px; border-radius: 5px;
+    border: 1px solid #e2e0f5; background: #fff; color: #3E3A98; cursor: pointer;
+    margin-right: 4px;
+  }
+  .action-btn:hover { background: #eae8ff; }
+  .action-btn.primary { background: #3E3A98; color: #fff; border-color: #3E3A98; }
+  .action-btn.primary:hover { background: #3230a0; }
+
+  /* ──────────────────────────────────────────────────────────────
+     DIRECTION D — Admin Dashboard (Dark)
+  ─────────────────────────────────────────────────────────────── */
+  .admin-dark { background: #0f0e22; color: #d4d2f0; }
+  .admin-dark .admin-topbar { background: #171630; border-color: #252347; }
+  .admin-dark .admin-topbar-title { color: #d4d2f0; }
+  .admin-dark .admin-badge { background: #252347; color: #8b88e8; }
+  .admin-dark .admin-sidebar { background: #171630; border-color: #252347; }
+  .admin-dark .admin-nav-section { color: #4a4880; }
+  .admin-dark .admin-nav-item { color: #7070a0; }
+  .admin-dark .admin-nav-item:hover { background: #1e1d3a; color: #a09ee8; }
+  .admin-dark .admin-nav-item.active { background: #1e1d3a; color: #a09ee8; border-left-color: #6562e8; }
+  .admin-dark .stat-card { background: #171630; border-color: #252347; }
+  .admin-dark .stat-label { color: #6060a0; }
+  .admin-dark .stat-value { color: #d4d2f0; }
+  .admin-dark .table-card { background: #171630; border-color: #252347; }
+  .admin-dark .table-header { border-bottom-color: #252347; }
+  .admin-dark .table-title { color: #d4d2f0; }
+  .admin-dark .table-search { border-color: #252347; background: #1e1d3a; }
+  .admin-dark .table-search input { color: #d4d2f0; }
+  .admin-dark thead th { background: #1a1935; border-bottom-color: #252347; color: #6060a0; }
+  .admin-dark tbody tr { border-bottom-color: #1e1d3a; }
+  .admin-dark tbody tr:hover { background: #1a1935; }
+  .admin-dark tbody td { color: #c4c2e8; }
+  .admin-dark .action-btn { border-color: #2e2c5a; background: #1e1d3a; color: #a09ee8; }
+  .admin-dark .action-btn.primary { background: #4a46c8; border-color: #4a46c8; color: #fff; }
+
+  /* ─── Design Tokens Table ─────────────────────────────────────── */
+  .token-table { width: 100%; border-collapse: collapse; background: #fff; border-radius: 10px; overflow: hidden; border: 1px solid #e8e6ff; }
+  .token-table thead th { background: #fafafe; font-size: 11px; font-weight: 600; color: #8080a8; text-align: left; padding: 10px 16px; border-bottom: 1px solid #f0eeff; }
+  .token-table tbody td { padding: 10px 16px; font-size: 12px; border-bottom: 1px solid #f5f4fd; vertical-align: middle; }
+  .token-table tbody tr:last-child td { border-bottom: none; }
+  .token-name { font-family: monospace; font-size: 12px; color: #3E3A98; }
+  .token-swatch-inline { display: inline-block; width: 16px; height: 16px; border-radius: 4px; vertical-align: middle; margin-right: 6px; border: 1px solid #e2e0f5; }
+  .token-desc { color: #5a5a7a; }
+  .token-light { color: #1a1a2e; font-family: monospace; }
+  .token-dark { color: #8080a8; font-family: monospace; }
+
+  /* ─── Note boxes ─────────────────────────────────────────────── */
+  .note {
+    background: #eae8ff; border-left: 3px solid #3E3A98; border-radius: 0 8px 8px 0;
+    padding: 12px 16px; font-size: 13px; color: #1a1a2e; margin-bottom: 16px; line-height: 1.5;
+  }
+  .note strong { color: #3E3A98; }
+
+  /* ─── Outer page chrome ──────────────────────────────────────── */
+  .page-header {
+    background: #3E3A98; color: #fff;
+    padding: 32px 40px; border-radius: 0;
+  }
+  .page-header h1 { font-size: 24px; font-weight: 800; letter-spacing: -.3px; margin-bottom: 6px; }
+  .page-header p { font-size: 14px; opacity: .8; }
+
+  /* Sinhala specimen specific */
+  .si-sample { font-family: 'Noto Sans Sinhala', serif; }
+</style>
+<!-- Attempt to load Google Fonts for specimen display only -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+Sinhala:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<div class="page-header">
+  <h1>e-Paperé SMS — Creative Checkpoint 01</h1>
+  <p>Visual directions for review. Nothing is final — pick what resonates, flag what to change. Brand Blue #3E3A98 · White #FFFFFF are locked.</p>
+</div>
+
+<div class="page">
+
+  <!-- ═══════════════════════════════════════════════════════════ -->
+  <!-- SECTION 1 — COLOR SYSTEM                                    -->
+  <!-- ═══════════════════════════════════════════════════════════ -->
+  <div class="gap-section">
+    <div class="section-label">01 — Color System</div>
+    <div class="section-title">Light Mode Palette</div>
+    <div class="section-sub">Derived from #3E3A98 (Brand Blue) and #FFFFFF. All semantic tokens; no raw hex values in components. WCAG AA contrast maintained on all background/text pairings.</div>
+
+    <div class="color-grid" style="margin-bottom:32px;">
+      <div class="swatch">
+        <div class="swatch-color" style="background:#3E3A98;"></div>
+        <div class="swatch-info">
+          <div class="swatch-name">Brand Blue</div>
+          <div class="swatch-hex">#3E3A98</div>
+          <div class="swatch-token">--color-brand</div>
+        </div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-color" style="background:#4a46c8;"></div>
+        <div class="swatch-info">
+          <div class="swatch-name">Brand Hover</div>
+          <div class="swatch-hex">#4a46c8</div>
+          <div class="swatch-token">--color-brand-hover</div>
+        </div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-color" style="background:#3230a0;"></div>
+        <div class="swatch-info">
+          <div class="swatch-name">Brand Active</div>
+          <div class="swatch-hex">#3230a0</div>
+          <div class="swatch-token">--color-brand-active</div>
+        </div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-color" style="background:#eae8ff;"></div>
+        <div class="swatch-info">
+          <div class="swatch-name">Brand Tint</div>
+          <div class="swatch-hex">#eae8ff</div>
+          <div class="swatch-token">--color-brand-tint</div>
+        </div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-color" style="background:#f0eeff;"></div>
+        <div class="swatch-info">
+          <div class="swatch-name">Brand Subtle</div>
+          <div class="swatch-hex">#f0eeff</div>
+          <div class="swatch-token">--color-brand-subtle</div>
+        </div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-color" style="background:#FFFFFF; border:1px solid #e8e6ff;"></div>
+        <div class="swatch-info">
+          <div class="swatch-name">Surface / White</div>
+          <div class="swatch-hex">#FFFFFF</div>
+          <div class="swatch-token">--color-surface</div>
+        </div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-color" style="background:#f8f7fd;"></div>
+        <div class="swatch-info">
+          <div class="swatch-name">BG Canvas</div>
+          <div class="swatch-hex">#f8f7fd</div>
+          <div class="swatch-token">--color-bg</div>
+        </div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-color" style="background:#fafafe;"></div>
+        <div class="swatch-info">
+          <div class="swatch-name">BG Subtle</div>
+          <div class="swatch-hex">#fafafe</div>
+          <div class="swatch-token">--color-bg-subtle</div>
+        </div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-color" style="background:#e8e6ff;"></div>
+        <div class="swatch-info">
+          <div class="swatch-name">Border Default</div>
+          <div class="swatch-hex">#e8e6ff</div>
+          <div class="swatch-token">--color-border</div>
+        </div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-color" style="background:#c7c4f0;"></div>
+        <div class="swatch-info">
+          <div class="swatch-name">Border Strong</div>
+          <div class="swatch-hex">#c7c4f0</div>
+          <div class="swatch-token">--color-border-strong</div>
+        </div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-color" style="background:#1a1a2e;"></div>
+        <div class="swatch-info">
+          <div class="swatch-name">Text Primary</div>
+          <div class="swatch-hex">#1a1a2e</div>
+          <div class="swatch-token">--color-text</div>
+        </div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-color" style="background:#6b6b8a;"></div>
+        <div class="swatch-info">
+          <div class="swatch-name">Text Muted</div>
+          <div class="swatch-hex">#6b6b8a</div>
+          <div class="swatch-token">--color-text-muted</div>
+        </div>
+      </div>
+      <!-- Semantic States -->
+      <div class="swatch">
+        <div class="swatch-color" style="background:#22c55e;"></div>
+        <div class="swatch-info">
+          <div class="swatch-name">Success</div>
+          <div class="swatch-hex">#22c55e</div>
+          <div class="swatch-token">--color-success</div>
+        </div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-color" style="background:#f59e0b;"></div>
+        <div class="swatch-info">
+          <div class="swatch-name">Warning</div>
+          <div class="swatch-hex">#f59e0b</div>
+          <div class="swatch-token">--color-warning</div>
+        </div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-color" style="background:#ef4444;"></div>
+        <div class="swatch-info">
+          <div class="swatch-name">Danger</div>
+          <div class="swatch-hex">#ef4444</div>
+          <div class="swatch-token">--color-danger</div>
+        </div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-color" style="background:#8b5cf6;"></div>
+        <div class="swatch-info">
+          <div class="swatch-name">Info / Accent</div>
+          <div class="swatch-hex">#8b5cf6</div>
+          <div class="swatch-token">--color-info</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-title">Dark Mode Palette</div>
+    <div class="section-sub">Dark surfaces are deep navy-purple — consistent with Brand Blue's hue family. Not an inversion. Brand Blue itself is lightened to stay accessible on dark backgrounds.</div>
+
+    <div class="color-grid">
+      <div class="swatch dark">
+        <div class="swatch-color" style="background:#0f0e22;"></div>
+        <div class="swatch-info">
+          <div class="swatch-name">BG Base</div>
+          <div class="swatch-hex">#0f0e22</div>
+          <div class="swatch-token">--color-bg [dark]</div>
+        </div>
+      </div>
+      <div class="swatch dark">
+        <div class="swatch-color" style="background:#13122a;"></div>
+        <div class="swatch-info">
+          <div class="swatch-name">BG Student</div>
+          <div class="swatch-hex">#13122a</div>
+          <div class="swatch-token">--color-bg-alt [dark]</div>
+        </div>
+      </div>
+      <div class="swatch dark">
+        <div class="swatch-color" style="background:#171630;"></div>
+        <div class="swatch-info">
+          <div class="swatch-name">Surface / Card</div>
+          <div class="swatch-hex">#171630</div>
+          <div class="swatch-token">--color-surface [dark]</div>
+        </div>
+      </div>
+      <div class="swatch dark">
+        <div class="swatch-color" style="background:#1e1d3a;"></div>
+        <div class="swatch-info">
+          <div class="swatch-name">Surface Elevated</div>
+          <div class="swatch-hex">#1e1d3a</div>
+          <div class="swatch-token">--color-surface-elevated [dark]</div>
+        </div>
+      </div>
+      <div class="swatch dark">
+        <div class="swatch-color" style="background:#252347;"></div>
+        <div class="swatch-info">
+          <div class="swatch-name">Border Default</div>
+          <div class="swatch-hex">#252347</div>
+          <div class="swatch-token">--color-border [dark]</div>
+        </div>
+      </div>
+      <div class="swatch dark">
+        <div class="swatch-color" style="background:#6562e8;"></div>
+        <div class="swatch-info">
+          <div class="swatch-name">Brand (Dark)</div>
+          <div class="swatch-hex">#6562e8</div>
+          <div class="swatch-token">--color-brand [dark]</div>
+        </div>
+      </div>
+      <div class="swatch dark">
+        <div class="swatch-color" style="background:#8b88e8;"></div>
+        <div class="swatch-info">
+          <div class="swatch-name">Brand Text (Dark)</div>
+          <div class="swatch-hex">#8b88e8</div>
+          <div class="swatch-token">--color-brand-text [dark]</div>
+        </div>
+      </div>
+      <div class="swatch dark">
+        <div class="swatch-color" style="background:#e0deff;"></div>
+        <div class="swatch-info">
+          <div class="swatch-name">Text Primary</div>
+          <div class="swatch-hex">#e0deff</div>
+          <div class="swatch-token">--color-text [dark]</div>
+        </div>
+      </div>
+      <div class="swatch dark">
+        <div class="swatch-color" style="background:#8080a8;"></div>
+        <div class="swatch-info">
+          <div class="swatch-name">Text Muted</div>
+          <div class="swatch-hex">#8080a8</div>
+          <div class="swatch-token">--color-text-muted [dark]</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════════ -->
+  <!-- SECTION 2 — TYPOGRAPHY                                      -->
+  <!-- ═══════════════════════════════════════════════════════════ -->
+  <div class="gap-section">
+    <div class="section-label">02 — Typography</div>
+    <div class="section-title">Font Pairing</div>
+    <div class="section-sub">Inter for English UI (clean, highly legible at small sizes, widely used in SaaS). Noto Sans Sinhala for Sinhala script (comprehensive Unicode coverage, consistent rendering on Android budget devices, Google Fonts). Both use the same type scale — no separate scale per language.</div>
+
+    <div class="note"><strong>Architecture confirmed (AD-28):</strong> Noto Sans Sinhala self-hosted subset U+0D80–U+0DFF, font-display: swap, served from same origin. Fallback: Noto Sans → system-ui. Sinhala line-height is 1.7–1.8 (glyph height requires more vertical space than Latin).</div>
+
+    <div class="typo-grid">
+      <!-- English Light -->
+      <div class="typo-card">
+        <div class="typo-label">English — Light Mode · Inter</div>
+        <div class="specimen-row">
+          <div class="specimen-size">32px</div>
+          <div class="specimen-weight">800</div>
+          <div class="specimen-sample" style="font-size:32px;font-weight:800;line-height:1.2;">e-Paperé Portal</div>
+        </div>
+        <div class="specimen-row">
+          <div class="specimen-size">22px</div>
+          <div class="specimen-weight">700</div>
+          <div class="specimen-sample" style="font-size:22px;font-weight:700;line-height:1.3;">Welcome back, Kavya</div>
+        </div>
+        <div class="specimen-row">
+          <div class="specimen-size">16px</div>
+          <div class="specimen-weight">600</div>
+          <div class="specimen-sample" style="font-size:16px;font-weight:600;">Mathematics — Grade 9</div>
+        </div>
+        <div class="specimen-row">
+          <div class="specimen-size">14px</div>
+          <div class="specimen-weight">500</div>
+          <div class="specimen-sample" style="font-size:14px;font-weight:500;">Monthly Invoice · November 2026</div>
+        </div>
+        <div class="specimen-row">
+          <div class="specimen-size">13px</div>
+          <div class="specimen-weight">400</div>
+          <div class="specimen-sample" style="font-size:13px;color:#6b6b8a;">Payment submitted. Awaiting verification.</div>
+        </div>
+        <div class="specimen-row" style="border:none;margin-bottom:0;padding-bottom:0;">
+          <div class="specimen-size">11px</div>
+          <div class="specimen-weight">600</div>
+          <div class="specimen-sample" style="font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:#3E3A98;">ACTIVE ENROLLMENT</div>
+        </div>
+      </div>
+
+      <!-- English Dark -->
+      <div class="typo-card typo-card-dark">
+        <div class="typo-label">English — Dark Mode · Inter</div>
+        <div class="specimen-row">
+          <div class="specimen-size" style="color:#6060a0;">32px</div>
+          <div class="specimen-weight" style="color:#6060a0;">800</div>
+          <div class="specimen-sample" style="font-size:32px;font-weight:800;line-height:1.2;color:#e0deff;">e-Paperé Portal</div>
+        </div>
+        <div class="specimen-row">
+          <div class="specimen-size" style="color:#6060a0;">22px</div>
+          <div class="specimen-weight" style="color:#6060a0;">700</div>
+          <div class="specimen-sample" style="font-size:22px;font-weight:700;line-height:1.3;color:#e0deff;">Welcome back, Kavya</div>
+        </div>
+        <div class="specimen-row">
+          <div class="specimen-size" style="color:#6060a0;">16px</div>
+          <div class="specimen-weight" style="color:#6060a0;">600</div>
+          <div class="specimen-sample" style="font-size:16px;font-weight:600;color:#d4d2f0;">Mathematics — Grade 9</div>
+        </div>
+        <div class="specimen-row">
+          <div class="specimen-size" style="color:#6060a0;">14px</div>
+          <div class="specimen-weight" style="color:#6060a0;">500</div>
+          <div class="specimen-sample" style="font-size:14px;font-weight:500;color:#d4d2f0;">Monthly Invoice · November 2026</div>
+        </div>
+        <div class="specimen-row">
+          <div class="specimen-size" style="color:#6060a0;">13px</div>
+          <div class="specimen-weight" style="color:#6060a0;">400</div>
+          <div class="specimen-sample" style="font-size:13px;color:#8080a8;">Payment submitted. Awaiting verification.</div>
+        </div>
+        <div class="specimen-row" style="border:none;margin-bottom:0;padding-bottom:0;">
+          <div class="specimen-size" style="color:#6060a0;">11px</div>
+          <div class="specimen-weight" style="color:#6060a0;">600</div>
+          <div class="specimen-sample" style="font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:#8b88e8;">ACTIVE ENROLLMENT</div>
+        </div>
+      </div>
+
+      <!-- Sinhala Light -->
+      <div class="typo-card">
+        <div class="typo-label">සිංහල — Light Mode · Noto Sans Sinhala</div>
+        <div class="specimen-row">
+          <div class="specimen-size">28px</div>
+          <div class="specimen-weight">700</div>
+          <div class="specimen-sample sinhala-sample" style="font-size:28px;font-weight:700;line-height:1.4;">e-Paperé ද්වාරය</div>
+        </div>
+        <div class="specimen-row">
+          <div class="specimen-size">20px</div>
+          <div class="specimen-weight">700</div>
+          <div class="specimen-sample sinhala-sample" style="font-size:20px;font-weight:700;line-height:1.5;">ආයුබෝවන් කාව්‍යා</div>
+        </div>
+        <div class="specimen-row">
+          <div class="specimen-size">16px</div>
+          <div class="specimen-weight">600</div>
+          <div class="specimen-sample sinhala-sample" style="font-size:16px;font-weight:600;line-height:1.7;">ගණිතය — 9 ශ්‍රේණිය</div>
+        </div>
+        <div class="specimen-row">
+          <div class="specimen-size">14px</div>
+          <div class="specimen-weight">500</div>
+          <div class="specimen-sample sinhala-sample" style="font-size:14px;font-weight:500;line-height:1.7;">මාසික ඉන්වොයිසිය · නොවැම්බර් 2026</div>
+        </div>
+        <div class="specimen-row">
+          <div class="specimen-size">13px</div>
+          <div class="specimen-weight">400</div>
+          <div class="specimen-sample sinhala-sample" style="font-size:13px;color:#6b6b8a;line-height:1.8;">ගෙවීම ඉදිරිපත් කරන ලදී. සත්‍යාපනය සඳහා බලා සිටිනු.</div>
+        </div>
+        <div class="specimen-row" style="border:none;margin-bottom:0;padding-bottom:0;">
+          <div class="specimen-size">12px</div>
+          <div class="specimen-weight">600</div>
+          <div class="specimen-sample sinhala-sample" style="font-size:12px;font-weight:600;color:#3E3A98;line-height:1.8;">සක්‍රිය ලියාපදිංචිය</div>
+        </div>
+      </div>
+
+      <!-- Sinhala Dark -->
+      <div class="typo-card typo-card-dark">
+        <div class="typo-label">සිංහල — Dark Mode · Noto Sans Sinhala</div>
+        <div class="specimen-row">
+          <div class="specimen-size" style="color:#6060a0;">28px</div>
+          <div class="specimen-weight" style="color:#6060a0;">700</div>
+          <div class="specimen-sample sinhala-sample" style="font-size:28px;font-weight:700;line-height:1.4;color:#e0deff;">e-Paperé ද්වාරය</div>
+        </div>
+        <div class="specimen-row">
+          <div class="specimen-size" style="color:#6060a0;">20px</div>
+          <div class="specimen-weight" style="color:#6060a0;">700</div>
+          <div class="specimen-sample sinhala-sample" style="font-size:20px;font-weight:700;line-height:1.5;color:#e0deff;">ආයුබෝවන් කාව්‍යා</div>
+        </div>
+        <div class="specimen-row">
+          <div class="specimen-size" style="color:#6060a0;">16px</div>
+          <div class="specimen-weight" style="color:#6060a0;">600</div>
+          <div class="specimen-sample sinhala-sample" style="font-size:16px;font-weight:600;line-height:1.7;color:#d4d2f0;">ගණිතය — 9 ශ්‍රේණිය</div>
+        </div>
+        <div class="specimen-row">
+          <div class="specimen-size" style="color:#6060a0;">14px</div>
+          <div class="specimen-weight" style="color:#6060a0;">500</div>
+          <div class="specimen-sample sinhala-sample" style="font-size:14px;font-weight:500;line-height:1.7;color:#d4d2f0;">මාසික ඉන්වොයිසිය · නොවැම්බර් 2026</div>
+        </div>
+        <div class="specimen-row">
+          <div class="specimen-size" style="color:#6060a0;">13px</div>
+          <div class="specimen-weight" style="color:#6060a0;">400</div>
+          <div class="specimen-sample sinhala-sample" style="font-size:13px;color:#8080a8;line-height:1.8;">ගෙවීම ඉදිරිපත් කරන ලදී.</div>
+        </div>
+        <div class="specimen-row" style="border:none;margin-bottom:0;padding-bottom:0;">
+          <div class="specimen-size" style="color:#6060a0;">12px</div>
+          <div class="specimen-weight" style="color:#6060a0;">600</div>
+          <div class="specimen-sample sinhala-sample" style="font-size:12px;font-weight:600;color:#8b88e8;line-height:1.8;">සක්‍රිය ලියාපදිංචිය</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════════ -->
+  <!-- SECTION 3 — STUDENT DASHBOARD                               -->
+  <!-- ═══════════════════════════════════════════════════════════ -->
+  <div class="gap-section">
+    <div class="section-label">03 — Student Dashboard Direction</div>
+    <div class="section-title">Light Mode · English &amp; Sinhala</div>
+    <div class="section-sub">Mobile-first card layout. Top priority: Today's Class banner (prominent, unmissable). Student ID always visible. Language + theme toggles in the top bar. Sidebar collapses to bottom nav on mobile.</div>
+
+    <div class="mockup-grid">
+      <!-- Light EN -->
+      <div>
+        <div style="font-size:12px;font-weight:600;color:#6b6b8a;margin-bottom:8px;">English · Light Mode</div>
+        <div class="mockup-frame">
+          <div class="mockup-bar">
+            <div class="dot dot-r"></div><div class="dot dot-y"></div><div class="dot dot-g"></div>
+            <span class="mockup-label">Student Dashboard · EN · Light</span>
+          </div>
+          <div class="sd-light">
+            <!-- Topbar -->
+            <div class="sd-topbar">
+              <div class="sd-logo">
+                <div class="sd-logo-mark">eP</div>
+                <div class="sd-logo-text">e-<span>Paperé</span></div>
+              </div>
+              <div class="sd-topbar-right">
+                <button class="sd-lang-btn">සිං | <strong>EN</strong></button>
+                <button class="sd-theme-btn">☀</button>
+                <div class="sd-avatar">KA</div>
+              </div>
+            </div>
+            <!-- Body -->
+            <div class="sd-body">
+              <!-- Sidebar -->
+              <div class="sd-sidebar">
+                <div class="sd-nav-item active"><span class="sd-nav-icon">🏠</span> Dashboard</div>
+                <div class="sd-nav-item"><span class="sd-nav-icon">📚</span> My Courses</div>
+                <div class="sd-nav-item"><span class="sd-nav-icon">📅</span> Schedule</div>
+                <div class="sd-nav-item"><span class="sd-nav-icon">📄</span> Materials</div>
+                <div class="sd-nav-item"><span class="sd-nav-icon">🎥</span> Recordings</div>
+                <div class="sd-nav-item"><span class="sd-nav-icon">💳</span> Payments</div>
+                <div class="sd-nav-item"><span class="sd-nav-icon">🔔</span> Notifications <span style="background:#3E3A98;color:#fff;font-size:10px;font-weight:700;border-radius:10px;padding:1px 6px;margin-left:auto;">3</span></div>
+                <div class="sd-nav-item"><span class="sd-nav-icon">❓</span> Help</div>
+              </div>
+              <!-- Main -->
+              <div class="sd-main">
+                <div class="sd-greeting">Good morning, Kavya 👋</div>
+                <div class="sd-ep-badge">🎓 EP-000147 · Grade 9</div>
+                <!-- Today's Class -->
+                <div class="today-banner">
+                  <div class="today-icon">🖥</div>
+                  <div class="today-info">
+                    <div class="today-title">TODAY'S CLASS</div>
+                    <div class="today-course">Mathematics — Theory · Grade 9</div>
+                    <div class="today-time">⏰ 4:00 PM – 5:30 PM &nbsp;·&nbsp; Mr. Perera</div>
+                  </div>
+                  <button class="today-btn">Join Now →</button>
+                </div>
+                <!-- Summary Cards -->
+                <div class="sd-cards">
+                  <div class="sd-card">
+                    <div class="sd-card-header">
+                      <div class="sd-card-icon">📚</div>
+                      <span class="sd-card-badge">3 Active</span>
+                    </div>
+                    <div class="sd-card-title">Enrolled Courses</div>
+                    <div class="sd-card-detail">Maths · Science · Sinhala</div>
+                  </div>
+                  <div class="sd-card">
+                    <div class="sd-card-header">
+                      <div class="sd-card-icon">💳</div>
+                      <span class="sd-card-badge warn">Due Nov 10</span>
+                    </div>
+                    <div class="sd-card-title">November Invoice</div>
+                    <div class="sd-card-amount">LKR 4,500</div>
+                  </div>
+                  <div class="sd-card">
+                    <div class="sd-card-header">
+                      <div class="sd-card-icon">✅</div>
+                      <span class="sd-card-badge">Approved</span>
+                    </div>
+                    <div class="sd-card-title">October Payment</div>
+                    <div class="sd-card-detail">Verified · All access active</div>
+                  </div>
+                </div>
+                <!-- Course List -->
+                <div class="sd-courses-title">My Courses · November</div>
+                <div class="course-row">
+                  <div class="course-dot green"></div>
+                  <div class="course-info">
+                    <div class="course-name">Mathematics — Theory · Grade 9</div>
+                    <div class="course-meta">Mr. Perera &nbsp;·&nbsp; Mon / Wed / Fri 4:00 PM</div>
+                  </div>
+                  <span class="course-status">Access Active</span>
+                </div>
+                <div class="course-row">
+                  <div class="course-dot green"></div>
+                  <div class="course-info">
+                    <div class="course-name">Science — Theory · Grade 9</div>
+                    <div class="course-meta">Ms. Silva &nbsp;·&nbsp; Tue / Thu 5:00 PM</div>
+                  </div>
+                  <span class="course-status">Access Active</span>
+                </div>
+                <div class="course-row">
+                  <div class="course-dot" style="background:#f59e0b;"></div>
+                  <div class="course-info">
+                    <div class="course-name">Sinhala — Theory · Grade 9</div>
+                    <div class="course-meta">Mr. Dissanayake &nbsp;·&nbsp; Sat 9:00 AM</div>
+                  </div>
+                  <span class="course-status pending">Payment Pending</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Light Sinhala -->
+      <div>
+        <div style="font-size:12px;font-weight:600;color:#6b6b8a;margin-bottom:8px;">සිංහල · Light Mode</div>
+        <div class="mockup-frame">
+          <div class="mockup-bar">
+            <div class="dot dot-r"></div><div class="dot dot-y"></div><div class="dot dot-g"></div>
+            <span class="mockup-label">Student Dashboard · SI · Light</span>
+          </div>
+          <div class="sd-light" lang="si">
+            <div class="sd-topbar">
+              <div class="sd-logo">
+                <div class="sd-logo-mark">eP</div>
+                <div class="sd-logo-text">e-<span>Paperé</span></div>
+              </div>
+              <div class="sd-topbar-right">
+                <button class="sd-lang-btn"><strong>සිං</strong> | EN</button>
+                <button class="sd-theme-btn">☀</button>
+                <div class="sd-avatar">ක</div>
+              </div>
+            </div>
+            <div class="sd-body">
+              <div class="sd-sidebar">
+                <div class="sd-nav-item active"><span class="sd-nav-icon">🏠</span> <span class="sinhala-sample">මුල් පිටුව</span></div>
+                <div class="sd-nav-item"><span class="sd-nav-icon">📚</span> <span class="sinhala-sample">මගේ පාඨමාලා</span></div>
+                <div class="sd-nav-item"><span class="sd-nav-icon">📅</span> <span class="sinhala-sample">කාලසටහන</span></div>
+                <div class="sd-nav-item"><span class="sd-nav-icon">📄</span> <span class="sinhala-sample">ද්‍රව්‍ය</span></div>
+                <div class="sd-nav-item"><span class="sd-nav-icon">🎥</span> <span class="sinhala-sample">වාර්තා</span></div>
+                <div class="sd-nav-item"><span class="sd-nav-icon">💳</span> <span class="sinhala-sample">ගෙවීම්</span></div>
+                <div class="sd-nav-item"><span class="sd-nav-icon">🔔</span> <span class="sinhala-sample">දැනුම්දීම්</span> <span style="background:#3E3A98;color:#fff;font-size:10px;font-weight:700;border-radius:10px;padding:1px 6px;margin-left:auto;">3</span></div>
+                <div class="sd-nav-item"><span class="sd-nav-icon">❓</span> <span class="sinhala-sample">උදව්</span></div>
+              </div>
+              <div class="sd-main">
+                <div class="sd-greeting sinhala-sample">සුභ උදෑසනක් කාව්‍යා 👋</div>
+                <div class="sd-ep-badge">🎓 EP-000147 · <span class="sinhala-sample">9 ශ්‍රේණිය</span></div>
+                <div class="today-banner">
+                  <div class="today-icon">🖥</div>
+                  <div class="today-info">
+                    <div class="today-title sinhala-sample" style="font-size:11px;">අදේ පන්තිය</div>
+                    <div class="today-course sinhala-sample" style="font-size:14px;">ගණිතය — න්‍යාය · 9 ශ්‍රේණිය</div>
+                    <div class="today-time sinhala-sample" style="font-size:12px;">⏰ 4:00 PM – 5:30 PM · පෙරේරා මහතා</div>
+                  </div>
+                  <button class="today-btn sinhala-sample" style="font-size:12px;">දැන් එකතු වෙන්න</button>
+                </div>
+                <div class="sd-cards">
+                  <div class="sd-card">
+                    <div class="sd-card-header">
+                      <div class="sd-card-icon">📚</div>
+                      <span class="sd-card-badge">3 සක්‍රිය</span>
+                    </div>
+                    <div class="sd-card-title sinhala-sample">ලියාපදිංචි පාඨමාලා</div>
+                    <div class="sd-card-detail sinhala-sample">ගණිතය · විද්‍යාව · සිංහල</div>
+                  </div>
+                  <div class="sd-card">
+                    <div class="sd-card-header">
+                      <div class="sd-card-icon">💳</div>
+                      <span class="sd-card-badge warn">නොවැ. 10 දිනය</span>
+                    </div>
+                    <div class="sd-card-title sinhala-sample">නොවැම්බර් ඉන්වොයිසිය</div>
+                    <div class="sd-card-amount">රු. 4,500</div>
+                  </div>
+                  <div class="sd-card">
+                    <div class="sd-card-header">
+                      <div class="sd-card-icon">✅</div>
+                      <span class="sd-card-badge">අනුමත</span>
+                    </div>
+                    <div class="sd-card-title sinhala-sample">ඔක්තෝ. ගෙවීම</div>
+                    <div class="sd-card-detail sinhala-sample">සත්‍යාපිත · ප්‍රවේශය සක්‍රිය</div>
+                  </div>
+                </div>
+                <div class="sd-courses-title sinhala-sample">මගේ පාඨමාලා · නොවැම්බර්</div>
+                <div class="course-row">
+                  <div class="course-dot green"></div>
+                  <div class="course-info">
+                    <div class="course-name sinhala-sample">ගණිතය — න්‍යාය · 9 ශ්‍රේණිය</div>
+                    <div class="course-meta sinhala-sample">පෙරේරා මහතා · සඳු/බදාදා/සිකු 4:00 PM</div>
+                  </div>
+                  <span class="course-status sinhala-sample" style="font-size:10px;">ප්‍රවේශය සක්‍රිය</span>
+                </div>
+                <div class="course-row">
+                  <div class="course-dot" style="background:#f59e0b;"></div>
+                  <div class="course-info">
+                    <div class="course-name sinhala-sample">සිංහල — න්‍යාය · 9 ශ්‍රේණිය</div>
+                    <div class="course-meta sinhala-sample">දිසානායක මහතා · සෙන. 9:00 AM</div>
+                  </div>
+                  <span class="course-status pending sinhala-sample" style="font-size:10px;">ගෙවීම් ලිංගිකව</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Dark EN -->
+      <div>
+        <div style="font-size:12px;font-weight:600;color:#6b6b8a;margin-bottom:8px;">English · Dark Mode</div>
+        <div class="mockup-frame">
+          <div class="mockup-bar" style="background:#1a1935;border-color:#252347;">
+            <div class="dot dot-r"></div><div class="dot dot-y"></div><div class="dot dot-g"></div>
+            <span class="mockup-label" style="color:#6060a0;">Student Dashboard · EN · Dark</span>
+          </div>
+          <div class="sd-light sd-dark">
+            <div class="sd-topbar">
+              <div class="sd-logo">
+                <div class="sd-logo-mark">eP</div>
+                <div class="sd-logo-text">e-<span>Paperé</span></div>
+              </div>
+              <div class="sd-topbar-right">
+                <button class="sd-lang-btn">සිං | <strong>EN</strong></button>
+                <button class="sd-theme-btn">🌙</button>
+                <div class="sd-avatar">KA</div>
+              </div>
+            </div>
+            <div class="sd-body">
+              <div class="sd-sidebar">
+                <div class="sd-nav-item active"><span class="sd-nav-icon">🏠</span> Dashboard</div>
+                <div class="sd-nav-item"><span class="sd-nav-icon">📚</span> My Courses</div>
+                <div class="sd-nav-item"><span class="sd-nav-icon">📅</span> Schedule</div>
+                <div class="sd-nav-item"><span class="sd-nav-icon">📄</span> Materials</div>
+                <div class="sd-nav-item"><span class="sd-nav-icon">🎥</span> Recordings</div>
+                <div class="sd-nav-item"><span class="sd-nav-icon">💳</span> Payments</div>
+                <div class="sd-nav-item"><span class="sd-nav-icon">🔔</span> Notifications</div>
+              </div>
+              <div class="sd-main">
+                <div class="sd-greeting">Good morning, Kavya 👋</div>
+                <div class="sd-ep-badge">🎓 EP-000147 · Grade 9</div>
+                <div class="today-banner">
+                  <div class="today-icon">🖥</div>
+                  <div class="today-info">
+                    <div class="today-title">TODAY'S CLASS</div>
+                    <div class="today-course">Mathematics — Theory · Grade 9</div>
+                    <div class="today-time">⏰ 4:00 PM – 5:30 PM · Mr. Perera</div>
+                  </div>
+                  <button class="today-btn">Join Now →</button>
+                </div>
+                <div class="sd-cards">
+                  <div class="sd-card">
+                    <div class="sd-card-header">
+                      <div class="sd-card-icon">📚</div>
+                      <span class="sd-card-badge">3 Active</span>
+                    </div>
+                    <div class="sd-card-title">Enrolled Courses</div>
+                    <div class="sd-card-detail">Maths · Science · Sinhala</div>
+                  </div>
+                  <div class="sd-card">
+                    <div class="sd-card-header">
+                      <div class="sd-card-icon">💳</div>
+                      <span class="sd-card-badge warn">Due Nov 10</span>
+                    </div>
+                    <div class="sd-card-title">November Invoice</div>
+                    <div class="sd-card-amount">LKR 4,500</div>
+                  </div>
+                  <div class="sd-card">
+                    <div class="sd-card-header">
+                      <div class="sd-card-icon">✅</div>
+                      <span class="sd-card-badge">Approved</span>
+                    </div>
+                    <div class="sd-card-title">October Payment</div>
+                    <div class="sd-card-detail">Verified · All access active</div>
+                  </div>
+                </div>
+                <div class="sd-courses-title">My Courses · November</div>
+                <div class="course-row">
+                  <div class="course-dot green"></div>
+                  <div class="course-info">
+                    <div class="course-name">Mathematics — Theory · Grade 9</div>
+                    <div class="course-meta">Mr. Perera · Mon/Wed/Fri 4:00 PM</div>
+                  </div>
+                  <span class="course-status">Access Active</span>
+                </div>
+                <div class="course-row">
+                  <div class="course-dot" style="background:#f59e0b;"></div>
+                  <div class="course-info">
+                    <div class="course-name">Sinhala — Theory · Grade 9</div>
+                    <div class="course-meta">Mr. Dissanayake · Sat 9:00 AM</div>
+                  </div>
+                  <span class="course-status pending">Payment Pending</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Dark Sinhala -->
+      <div>
+        <div style="font-size:12px;font-weight:600;color:#6b6b8a;margin-bottom:8px;">සිංහල · Dark Mode</div>
+        <div class="mockup-frame">
+          <div class="mockup-bar" style="background:#1a1935;border-color:#252347;">
+            <div class="dot dot-r"></div><div class="dot dot-y"></div><div class="dot dot-g"></div>
+            <span class="mockup-label" style="color:#6060a0;">Student Dashboard · SI · Dark</span>
+          </div>
+          <div class="sd-light sd-dark" lang="si">
+            <div class="sd-topbar">
+              <div class="sd-logo">
+                <div class="sd-logo-mark">eP</div>
+                <div class="sd-logo-text">e-<span>Paperé</span></div>
+              </div>
+              <div class="sd-topbar-right">
+                <button class="sd-lang-btn"><strong>සිං</strong> | EN</button>
+                <button class="sd-theme-btn">🌙</button>
+                <div class="sd-avatar">ක</div>
+              </div>
+            </div>
+            <div class="sd-body">
+              <div class="sd-sidebar">
+                <div class="sd-nav-item active"><span class="sd-nav-icon">🏠</span> <span class="sinhala-sample">මුල් පිටුව</span></div>
+                <div class="sd-nav-item"><span class="sd-nav-icon">📚</span> <span class="sinhala-sample">මගේ පාඨමාලා</span></div>
+                <div class="sd-nav-item"><span class="sd-nav-icon">📅</span> <span class="sinhala-sample">කාලසටහන</span></div>
+                <div class="sd-nav-item"><span class="sd-nav-icon">💳</span> <span class="sinhala-sample">ගෙවීම්</span></div>
+                <div class="sd-nav-item"><span class="sd-nav-icon">🔔</span> <span class="sinhala-sample">දැනුම්දීම්</span></div>
+              </div>
+              <div class="sd-main">
+                <div class="sd-greeting sinhala-sample">සුභ උදෑසනක් කාව්‍යා 👋</div>
+                <div class="sd-ep-badge">🎓 EP-000147 · <span class="sinhala-sample">9 ශ්‍රේණිය</span></div>
+                <div class="today-banner">
+                  <div class="today-icon">🖥</div>
+                  <div class="today-info">
+                    <div class="today-title sinhala-sample" style="font-size:11px;">අදේ පන්තිය</div>
+                    <div class="today-course sinhala-sample" style="font-size:14px;">ගණිතය — න්‍යාය · 9 ශ්‍රේණිය</div>
+                    <div class="today-time sinhala-sample" style="font-size:12px;">⏰ 4:00 PM – 5:30 PM</div>
+                  </div>
+                  <button class="today-btn sinhala-sample" style="font-size:12px;">දැන් එකතු</button>
+                </div>
+                <div class="sd-cards">
+                  <div class="sd-card">
+                    <div class="sd-card-header"><div class="sd-card-icon">📚</div><span class="sd-card-badge">3</span></div>
+                    <div class="sd-card-title sinhala-sample">ලියාපදිංචි</div>
+                    <div class="sd-card-detail sinhala-sample">ගණිතය · විද්‍යාව · සිංහල</div>
+                  </div>
+                  <div class="sd-card">
+                    <div class="sd-card-header"><div class="sd-card-icon">💳</div><span class="sd-card-badge warn">නොවැ.</span></div>
+                    <div class="sd-card-title sinhala-sample">ඉන්වොයිසිය</div>
+                    <div class="sd-card-amount">රු. 4,500</div>
+                  </div>
+                  <div class="sd-card">
+                    <div class="sd-card-header"><div class="sd-card-icon">✅</div><span class="sd-card-badge">අනුමත</span></div>
+                    <div class="sd-card-title sinhala-sample">ඔ/10 ගෙවීම</div>
+                    <div class="sd-card-detail sinhala-sample">සත්‍යාපිත</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════════ -->
+  <!-- SECTION 4 — ADMIN DASHBOARD                                 -->
+  <!-- ═══════════════════════════════════════════════════════════ -->
+  <div class="gap-section">
+    <div class="section-label">04 — Admin Dashboard Direction</div>
+    <div class="section-title">Professional SaaS Admin · Light &amp; Dark</div>
+    <div class="section-sub">Persistent left sidebar with labelled sections. Stat cards with delta indicators. Dense, scannable tables with inline status pills and action buttons. No decorative elements — every pixel earns its place.</div>
+
+    <div class="mockup-grid">
+      <!-- Admin Light -->
+      <div>
+        <div style="font-size:12px;font-weight:600;color:#6b6b8a;margin-bottom:8px;">Administrator · Light Mode</div>
+        <div class="mockup-frame">
+          <div class="mockup-bar">
+            <div class="dot dot-r"></div><div class="dot dot-y"></div><div class="dot dot-g"></div>
+            <span class="mockup-label">Admin Dashboard · Light</span>
+          </div>
+          <div class="admin-wrap" style="min-height:540px;">
+            <div class="admin-topbar">
+              <div class="sd-logo-mark" style="width:28px;height:28px;font-size:11px;border-radius:6px;">eP</div>
+              <span class="admin-topbar-title">e-Paperé Administration</span>
+              <div class="admin-topbar-right">
+                <button class="sd-lang-btn" style="font-size:11px;">සිං | <strong>EN</strong></button>
+                <button class="sd-theme-btn" style="width:28px;height:28px;">☀</button>
+                <span class="admin-badge">Administrator</span>
+                <div class="sd-avatar" style="width:28px;height:28px;font-size:11px;">RN</div>
+              </div>
+            </div>
+            <div class="admin-body">
+              <div class="admin-sidebar">
+                <div class="admin-nav-section">Overview</div>
+                <div class="admin-nav-item active"><span class="icon">📊</span> Dashboard</div>
+                <div class="admin-nav-item"><span class="icon">👥</span> Students</div>
+                <div class="admin-nav-item"><span class="icon">📋</span> Enrollments</div>
+
+                <div class="admin-nav-section">Finance</div>
+                <div class="admin-nav-item"><span class="icon">📄</span> Invoices</div>
+                <div class="admin-nav-item"><span class="icon">💳</span> Payments</div>
+
+                <div class="admin-nav-section">Academic</div>
+                <div class="admin-nav-item"><span class="icon">📚</span> Courses</div>
+                <div class="admin-nav-item"><span class="icon">🏫</span> Teachers</div>
+                <div class="admin-nav-item"><span class="icon">📦</span> Migration</div>
+
+                <div class="admin-nav-section">System</div>
+                <div class="admin-nav-item"><span class="icon">⚙️</span> Settings</div>
+              </div>
+              <div class="admin-main">
+                <!-- Stats -->
+                <div style="font-size:13px;font-weight:700;color:#1a1a2e;margin-bottom:14px;">Student Management</div>
+                <div class="stats-row">
+                  <div class="stat-card">
+                    <div class="stat-label">Total Students</div>
+                    <div class="stat-value">247</div>
+                    <div class="stat-delta">+12 this month</div>
+                  </div>
+                  <div class="stat-card">
+                    <div class="stat-label">Active Accounts</div>
+                    <div class="stat-value">231</div>
+                    <div class="stat-delta">93.5% active</div>
+                  </div>
+                  <div class="stat-card">
+                    <div class="stat-label">Pending Activation</div>
+                    <div class="stat-value">11</div>
+                    <div class="stat-delta" style="color:#f59e0b;">Awaiting setup</div>
+                  </div>
+                  <div class="stat-card">
+                    <div class="stat-label">Suspended</div>
+                    <div class="stat-value">5</div>
+                    <div class="stat-delta neg">Needs review</div>
+                  </div>
+                </div>
+                <!-- Table -->
+                <div class="table-card">
+                  <div class="table-header">
+                    <span class="table-title">Recent Students</span>
+                    <div class="table-search">
+                      <span style="color:#b0aed8;font-size:13px;">🔍</span>
+                      <input type="text" placeholder="Search by name or EP ID…">
+                    </div>
+                    <button class="action-btn primary" style="margin-left:10px;">+ Register Student</button>
+                  </div>
+                  <table>
+                    <thead>
+                      <tr>
+                        <th>EP ID</th>
+                        <th>Full Name</th>
+                        <th>Grade</th>
+                        <th>Status</th>
+                        <th>Enrolled</th>
+                        <th>Registered</th>
+                        <th>Actions</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td><code style="font-size:11px;color:#3E3A98;">EP-000247</code></td>
+                        <td><strong>Tharushi Ranaweera</strong></td>
+                        <td>Grade 6</td>
+                        <td><span class="status-pill pending"><span class="dot-indicator pending"></span>Pending</span></td>
+                        <td style="color:#6b6b8a;">—</td>
+                        <td style="color:#6b6b8a;font-size:11px;">16 Oct 2026</td>
+                        <td>
+                          <button class="action-btn">View</button>
+                          <button class="action-btn">Resend Link</button>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td><code style="font-size:11px;color:#3E3A98;">EP-000231</code></td>
+                        <td><strong>Kavya Amarasinghe</strong></td>
+                        <td>Grade 9</td>
+                        <td><span class="status-pill active"><span class="dot-indicator active"></span>Active</span></td>
+                        <td>3 courses</td>
+                        <td style="color:#6b6b8a;font-size:11px;">12 Oct 2026</td>
+                        <td>
+                          <button class="action-btn">View</button>
+                          <button class="action-btn">Suspend</button>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td><code style="font-size:11px;color:#3E3A98;">EP-000198</code></td>
+                        <td><strong>Dilshan Jayawardena</strong></td>
+                        <td>Grade 10</td>
+                        <td><span class="status-pill active"><span class="dot-indicator active"></span>Active</span></td>
+                        <td>3 courses</td>
+                        <td style="color:#6b6b8a;font-size:11px;">03 Sep 2026</td>
+                        <td>
+                          <button class="action-btn">View</button>
+                          <button class="action-btn">Suspend</button>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td><code style="font-size:11px;color:#3E3A98;">EP-000144</code></td>
+                        <td><strong>Amal Wickramasinghe</strong></td>
+                        <td>Grade 11</td>
+                        <td><span class="status-pill suspended"><span class="dot-indicator suspended"></span>Suspended</span></td>
+                        <td>1 course</td>
+                        <td style="color:#6b6b8a;font-size:11px;">05 Aug 2026</td>
+                        <td>
+                          <button class="action-btn">View</button>
+                          <button class="action-btn primary">Reinstate</button>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Admin Dark -->
+      <div>
+        <div style="font-size:12px;font-weight:600;color:#6b6b8a;margin-bottom:8px;">Finance Admin · Dark Mode</div>
+        <div class="mockup-frame">
+          <div class="mockup-bar" style="background:#1a1935;border-color:#252347;">
+            <div class="dot dot-r"></div><div class="dot dot-y"></div><div class="dot dot-g"></div>
+            <span class="mockup-label" style="color:#6060a0;">Finance Dashboard · Dark</span>
+          </div>
+          <div class="admin-wrap admin-dark" style="min-height:540px;">
+            <div class="admin-topbar">
+              <div class="sd-logo-mark" style="width:28px;height:28px;font-size:11px;border-radius:6px;">eP</div>
+              <span class="admin-topbar-title">e-Paperé Administration</span>
+              <div class="admin-topbar-right">
+                <button class="sd-lang-btn">සිං | <strong>EN</strong></button>
+                <button class="sd-theme-btn" style="width:28px;height:28px;">🌙</button>
+                <span class="admin-badge">Finance Admin</span>
+                <div class="sd-avatar" style="width:28px;height:28px;font-size:11px;background:#4a46c8;">PR</div>
+              </div>
+            </div>
+            <div class="admin-body">
+              <div class="admin-sidebar">
+                <div class="admin-nav-section">Finance</div>
+                <div class="admin-nav-item active"><span class="icon">📋</span> Verification Queue</div>
+                <div class="admin-nav-item"><span class="icon">✅</span> Approved</div>
+                <div class="admin-nav-item"><span class="icon">❓</span> Clarification</div>
+                <div class="admin-nav-item"><span class="icon">❌</span> Rejected</div>
+                <div class="admin-nav-section">Reports</div>
+                <div class="admin-nav-item"><span class="icon">📊</span> Audit Trail</div>
+                <div class="admin-nav-item"><span class="icon">💰</span> Summaries</div>
+              </div>
+              <div class="admin-main">
+                <div style="font-size:13px;font-weight:700;color:#d4d2f0;margin-bottom:14px;">Payment Verification Queue</div>
+                <div class="stats-row" style="grid-template-columns:repeat(3,1fr);">
+                  <div class="stat-card">
+                    <div class="stat-label">Pending Review</div>
+                    <div class="stat-value" style="color:#f59e0b;">18</div>
+                    <div class="stat-delta" style="color:#f59e0b;">Needs attention</div>
+                  </div>
+                  <div class="stat-card">
+                    <div class="stat-label">Approved Today</div>
+                    <div class="stat-value" style="color:#22c55e;">7</div>
+                    <div class="stat-delta">Access activated</div>
+                  </div>
+                  <div class="stat-card">
+                    <div class="stat-label">Clarification</div>
+                    <div class="stat-value" style="color:#8b5cf6;">3</div>
+                    <div class="stat-delta" style="color:#8b5cf6;">Awaiting student</div>
+                  </div>
+                </div>
+                <div class="table-card">
+                  <div class="table-header">
+                    <span class="table-title">Unclaimed Submissions</span>
+                    <div class="table-search">
+                      <span style="color:#4a4880;font-size:13px;">🔍</span>
+                      <input type="text" placeholder="Search EP ID or name…">
+                    </div>
+                  </div>
+                  <table>
+                    <thead>
+                      <tr>
+                        <th>EP ID</th>
+                        <th>Student</th>
+                        <th>Month</th>
+                        <th>Amount</th>
+                        <th>Status</th>
+                        <th>Submitted</th>
+                        <th>Action</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td><code style="font-size:11px;color:#8b88e8;">EP-000198</code></td>
+                        <td style="color:#c4c2e8;">Dilshan J.</td>
+                        <td style="color:#c4c2e8;">Nov 2026</td>
+                        <td style="font-weight:600;color:#d4d2f0;">LKR 4,500</td>
+                        <td><span class="status-pill pending"><span class="dot-indicator pending"></span>Submitted</span></td>
+                        <td style="color:#6060a0;font-size:11px;">16 Oct, 10:23</td>
+                        <td><button class="action-btn primary" style="font-size:11px;">Claim &amp; Review</button></td>
+                      </tr>
+                      <tr>
+                        <td><code style="font-size:11px;color:#8b88e8;">EP-000144</code></td>
+                        <td style="color:#c4c2e8;">Amal W.</td>
+                        <td style="color:#c4c2e8;">Nov 2026</td>
+                        <td style="font-weight:600;color:#d4d2f0;">LKR 1,500</td>
+                        <td><span class="status-pill review"><span class="dot-indicator review"></span>Clarification</span></td>
+                        <td style="color:#6060a0;font-size:11px;">15 Oct, 14:07</td>
+                        <td><button class="action-btn primary" style="font-size:11px;">Claim &amp; Review</button></td>
+                      </tr>
+                      <tr>
+                        <td><code style="font-size:11px;color:#8b88e8;">EP-000203</code></td>
+                        <td style="color:#c4c2e8;">Tharushi R.</td>
+                        <td style="color:#c4c2e8;">Nov 2026</td>
+                        <td style="font-weight:600;color:#d4d2f0;">LKR 1,500</td>
+                        <td><span class="status-pill pending"><span class="dot-indicator pending"></span>Submitted</span></td>
+                        <td style="color:#6060a0;font-size:11px;">16 Oct, 09:44</td>
+                        <td><button class="action-btn primary" style="font-size:11px;">Claim &amp; Review</button></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════════ -->
+  <!-- SECTION 5 — SEMANTIC TOKEN REFERENCE                        -->
+  <!-- ═══════════════════════════════════════════════════════════ -->
+  <div class="gap-section">
+    <div class="section-label">05 — Semantic Design Token Reference</div>
+    <div class="section-title">Core Token Set</div>
+    <div class="section-sub">These tokens are the bridge between DESIGN.md and the Tailwind CSS custom properties in <code>src/styles/tokens.css</code>. Components reference token names only — never raw hex values. Both themes share the same token names; values differ per theme in CSS <code>:root</code> and <code>.dark</code>.</div>
+
+    <table class="token-table">
+      <thead>
+        <tr>
+          <th>Token</th>
+          <th>Role</th>
+          <th>Light Value</th>
+          <th>Dark Value</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td class="token-name">--color-brand</td><td class="token-desc">Primary brand action color</td><td class="token-light"><span class="token-swatch-inline" style="background:#3E3A98;"></span>#3E3A98</td><td class="token-dark"><span class="token-swatch-inline" style="background:#6562e8;border-color:#4a4880;"></span>#6562e8</td></tr>
+        <tr><td class="token-name">--color-brand-hover</td><td class="token-desc">Button hover state</td><td class="token-light"><span class="token-swatch-inline" style="background:#4a46c8;"></span>#4a46c8</td><td class="token-dark"><span class="token-swatch-inline" style="background:#7572f0;border-color:#4a4880;"></span>#7572f0</td></tr>
+        <tr><td class="token-name">--color-brand-active</td><td class="token-desc">Button pressed state</td><td class="token-light"><span class="token-swatch-inline" style="background:#3230a0;"></span>#3230a0</td><td class="token-dark"><span class="token-swatch-inline" style="background:#5452d8;border-color:#4a4880;"></span>#5452d8</td></tr>
+        <tr><td class="token-name">--color-brand-tint</td><td class="token-desc">Selected nav, active chip bg</td><td class="token-light"><span class="token-swatch-inline" style="background:#eae8ff;"></span>#eae8ff</td><td class="token-dark"><span class="token-swatch-inline" style="background:#252347;border-color:#4a4880;"></span>#252347</td></tr>
+        <tr><td class="token-name">--color-brand-subtle</td><td class="token-desc">Hover rows, icon backgrounds</td><td class="token-light"><span class="token-swatch-inline" style="background:#f0eeff;"></span>#f0eeff</td><td class="token-dark"><span class="token-swatch-inline" style="background:#1e1d3a;border-color:#4a4880;"></span>#1e1d3a</td></tr>
+        <tr><td class="token-name">--color-bg</td><td class="token-desc">Page canvas / root background</td><td class="token-light"><span class="token-swatch-inline" style="background:#f8f7fd;"></span>#f8f7fd</td><td class="token-dark"><span class="token-swatch-inline" style="background:#13122a;border-color:#4a4880;"></span>#13122a</td></tr>
+        <tr><td class="token-name">--color-surface</td><td class="token-desc">Cards, sidebars, modals</td><td class="token-light"><span class="token-swatch-inline" style="background:#ffffff;"></span>#ffffff</td><td class="token-dark"><span class="token-swatch-inline" style="background:#171630;border-color:#4a4880;"></span>#171630</td></tr>
+        <tr><td class="token-name">--color-surface-elevated</td><td class="token-desc">Dropdowns, tooltips, popovers</td><td class="token-light"><span class="token-swatch-inline" style="background:#fafafe;"></span>#fafafe</td><td class="token-dark"><span class="token-swatch-inline" style="background:#1e1d3a;border-color:#4a4880;"></span>#1e1d3a</td></tr>
+        <tr><td class="token-name">--color-border</td><td class="token-desc">Default dividers, card borders</td><td class="token-light"><span class="token-swatch-inline" style="background:#e8e6ff;"></span>#e8e6ff</td><td class="token-dark"><span class="token-swatch-inline" style="background:#252347;border-color:#4a4880;"></span>#252347</td></tr>
+        <tr><td class="token-name">--color-border-strong</td><td class="token-desc">Focus rings, strong dividers</td><td class="token-light"><span class="token-swatch-inline" style="background:#c7c4f0;"></span>#c7c4f0</td><td class="token-dark"><span class="token-swatch-inline" style="background:#3a3870;border-color:#4a4880;"></span>#3a3870</td></tr>
+        <tr><td class="token-name">--color-text</td><td class="token-desc">Primary body text</td><td class="token-light"><span class="token-swatch-inline" style="background:#1a1a2e;"></span>#1a1a2e</td><td class="token-dark"><span class="token-swatch-inline" style="background:#e0deff;border-color:#4a4880;"></span>#e0deff</td></tr>
+        <tr><td class="token-name">--color-text-muted</td><td class="token-desc">Secondary / helper text</td><td class="token-light"><span class="token-swatch-inline" style="background:#6b6b8a;"></span>#6b6b8a</td><td class="token-dark"><span class="token-swatch-inline" style="background:#8080a8;border-color:#4a4880;"></span>#8080a8</td></tr>
+        <tr><td class="token-name">--color-success</td><td class="token-desc">Approved, active, access granted</td><td class="token-light"><span class="token-swatch-inline" style="background:#22c55e;"></span>#22c55e</td><td class="token-dark"><span class="token-swatch-inline" style="background:#34d399;border-color:#4a4880;"></span>#34d399</td></tr>
+        <tr><td class="token-name">--color-warning</td><td class="token-desc">Pending, overdue, due soon</td><td class="token-light"><span class="token-swatch-inline" style="background:#f59e0b;"></span>#f59e0b</td><td class="token-dark"><span class="token-swatch-inline" style="background:#fbbf24;border-color:#4a4880;"></span>#fbbf24</td></tr>
+        <tr><td class="token-name">--color-danger</td><td class="token-desc">Rejected, suspended, error</td><td class="token-light"><span class="token-swatch-inline" style="background:#ef4444;"></span>#ef4444</td><td class="token-dark"><span class="token-swatch-inline" style="background:#f87171;border-color:#4a4880;"></span>#f87171</td></tr>
+        <tr><td class="token-name">--color-info</td><td class="token-desc">Clarification, under review, neutral info</td><td class="token-light"><span class="token-swatch-inline" style="background:#8b5cf6;"></span>#8b5cf6</td><td class="token-dark"><span class="token-swatch-inline" style="background:#a78bfa;border-color:#4a4880;"></span>#a78bfa</td></tr>
+        <tr><td class="token-name">--radius-sm</td><td class="token-desc">Badges, pills, chips</td><td class="token-light" colspan="2">4px</td></tr>
+        <tr><td class="token-name">--radius-md</td><td class="token-desc">Buttons, inputs, table rows</td><td class="token-light" colspan="2">8px</td></tr>
+        <tr><td class="token-name">--radius-lg</td><td class="token-desc">Cards, panels, modals</td><td class="token-light" colspan="2">12px</td></tr>
+        <tr><td class="token-name">--radius-xl</td><td class="token-desc">Hero banners, feature blocks</td><td class="token-light" colspan="2">16px</td></tr>
+        <tr><td class="token-name">--font-sans-en</td><td class="token-desc">English body font stack</td><td class="token-light" colspan="2">'Inter', 'Segoe UI', system-ui, sans-serif</td></tr>
+        <tr><td class="token-name">--font-sans-si</td><td class="token-desc">Sinhala body font stack</td><td class="token-light" colspan="2">'Noto Sans Sinhala', 'Noto Sans', sans-serif</td></tr>
+        <tr><td class="token-name">--line-height-si</td><td class="token-desc">Sinhala line height (glyphs taller)</td><td class="token-light" colspan="2">1.75 (vs 1.5 for Latin)</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Footer note -->
+  <div class="gap-section">
+    <div class="note">
+      <strong>This is a creative checkpoint, not a final spec.</strong> Review the four screen directions, color system, and token table. Your picks shape both DESIGN.md and EXPERIENCE.md. Tell me:
+      <br><br>
+      1. Does the overall visual direction feel right for e-Paperé?<br>
+      2. Any color values you want adjusted (contrast, tone, warmth)?<br>
+      3. Does the Student Dashboard layout priority feel correct?<br>
+      4. Does the Admin table density / sidebar structure match what you had in mind?<br>
+      5. Any typography tweaks — weight, scale, Sinhala spacing?<br>
+      6. Anything you want to see before we move to full Discovery and spine finalization?
+    </div>
+  </div>
+
+</div>
+</body>
+</html>
