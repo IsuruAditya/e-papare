@@ -1,0 +1,17 @@
+# Normalize line endings to LF for all text files across platforms.
+# Required so Prettier's `endOfLine: "lf"` (the default) passes on Windows
+# where core.autocrlf would otherwise produce CRLF working copies.
+* text=auto eol=lf
+
+# Binary assets are never normalized (added as needed in later stories).
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.webp binary
+*.ico binary
+*.woff binary
+*.woff2 binary
+*.ttf binary
+*.otf binary
+*.eot binary

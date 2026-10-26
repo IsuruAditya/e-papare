@@ -29,7 +29,7 @@
 # - Dev moves story to 'review', then runs code-review (fresh context, different LLM recommended)
 # - Retrospective appends its action items to action_items; the status view surfaces open ones
 generated: 10-24-2026 14:30
-last_updated: 10-26-2026 09:30
+last_updated: 10-26-2026 14:30
 project: e-papere
 project_key: NOKEY
 tracking_system: file-system
@@ -81,7 +81,7 @@ story_location: _bmad-output/implementation-artifacts/stories
 development_status:
   epic-1: in-progress
   1-1-pnpm-monorepo-scaffold-with-three-packages: done
-  1-2-eslint-prettier-and-pre-commit-hooks: backlog
+  1-2-eslint-prettier-and-pre-commit-hooks: done
   1-3-vitest-and-playwright-test-framework-setup: backlog
   1-4-github-actions-ci-pipeline-with-i18n-and-type-gates: backlog
   1-5-semantic-design-token-system-and-typography: backlog

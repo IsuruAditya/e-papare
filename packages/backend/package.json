@@ -5,7 +5,8 @@
   "scripts": {
     "build": "tsc --project tsconfig.json",
     "start": "node dist/main.js",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint ."
   },
   "dependencies": {
     "@e-papere/shared-types": "workspace:*",
