@@ -1,0 +1,19 @@
+{
+  "name": "e-papere",
+  "version": "0.0.1",
+  "private": true,
+  "engines": {
+    "node": ">=24",
+    "pnpm": ">=11"
+  },
+  "packageManager": "pnpm@11.5.3",
+  "scripts": {
+    "typecheck": "pnpm -r typecheck",
+    "lint": "pnpm -r --if-present lint",
+    "test": "pnpm -r --if-present test",
+    "test:e2e": "pnpm -r --if-present test:e2e"
+  },
+  "devDependencies": {
+    "typescript": "^5.9.3"
+  }
+}
