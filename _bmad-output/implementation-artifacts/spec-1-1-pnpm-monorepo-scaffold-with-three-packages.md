@@ -116,18 +116,21 @@ Implemented on branch `feat/story-1-1-monorepo-scaffold`. Commit `eee941b`.
 - Root `package.json`: Removed redundant `install:all: "pnpm install"` script.
 - `packages/backend/tsconfig.json`: Confirmed `"moduleResolution": "node"` is the correct choice for CommonJS (`"module": "commonjs"`). Tested `"node16"` — requires `"module": "Node16"` which enforces `.js` extension imports, incompatible with standard NestJS patterns. Reverted.
 
-### Peer Dependency Justification (explicit)
+### Peer Dependency Resolution (corrected)
 
-`pnpm peers check` reports unmet peers for 5 packages:
+All 5 NestJS ecosystem peer warnings have been resolved by upgrading to the first versions that officially declare NestJS 11 peer support:
 
-| Package | Declared Peer | Installed | Justification |
+| Package | Was | Now | Peer Range Change |
 |---|---|---|---|
-| `@nestjs/config@3.3.0` | `@nestjs/common ^8\|\|^9\|\|^10` | 11.2.7 | v3.3 is the last minor for the v3 line; v4 targets NestJS 12. Works with NestJS 11 — backward compatible. |
-| `@nestjs/jwt@10.2.0` | `@nestjs/common ^8\|\|^9\|\|^10` | 11.2.7 | No `@nestjs/jwt@11` exists; v10 is current. Works with NestJS 11. |
-| `@nestjs/swagger@8.1.1` | `@nestjs/common ^9\|\|^10`, `@nestjs/core ^9\|\|^10` | 11.2.7 | v8 is the last line targeting NestJS 9/10; v9+ targets NestJS 11 but is not yet published. Works in practice. |
-| `@nestjs/mapped-types@2.0.6` | `@nestjs/common ^8\|\|^9\|\|^10` | 11.2.7 | Transitive via `@nestjs/swagger`; backward compatible. |
+| `@nestjs/config` | 3.3.0 | 4.0.4 | `^8\|\|^9\|\|^10` → `^10\|\|^11` |
+| `@nestjs/jwt` | 10.2.0 | 11.0.2 | `^8\|\|^9\|\|^10` → `^8\|\|^9\|\|^10\|\|^11` |
+| `@nestjs/swagger` | 8.1.1 | 11.4.7 | `^9\|\|^10` → `^11.0.1` |
+| `@nestjs/core` peer | (swagger v8) | (swagger v11) | `^9\|\|^10` → `^11.0.1` |
+| `@nestjs/mapped-types` | 2.0.6 (transitive) | resolved | Pulled by swagger@11; no longer flagged |
 
-These peer ranges are stale (not updated when NestJS 11 released). The packages are functionally compatible with NestJS 11 — `pnpm install` succeeds, `pnpm -r typecheck` passes, and no runtime errors occur. Per project policy, major version upgrades are not pursued to chase the latest release. These are explicitly justified and accepted.
+`pnpm peers check` now reports: **No peer dependency issues found.**
+
+These are not "chase the latest" upgrades — they are the minimum versions that add `^11.0.0` to their declared peer ranges, specifically released to support NestJS 11.
 
 ## Spec Change Log
 
