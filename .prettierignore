@@ -1,0 +1,22 @@
+# Dependencies & build output
+node_modules/
+dist/
+build/
+coverage/
+.vite/
+
+# Lockfile
+pnpm-lock.yaml
+
+# BMAD tooling & planning artifacts (vendored / managed, not project source)
+_bmad/
+_bmad-output/
+.kiro/
+.husky/_/
+
+# Markdown (not auto-formatted; avoids churning docs and the bmad-managed AGENTS.md)
+**/*.md
+
+# Minified assets
+*.min.js
+*.min.css

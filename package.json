@@ -9,11 +9,24 @@
   "packageManager": "pnpm@11.5.3",
   "scripts": {
     "typecheck": "pnpm -r typecheck",
-    "lint": "pnpm -r --if-present lint",
+    "lint": "pnpm -r --if-present lint && prettier --check .",
+    "format": "prettier --write .",
     "test": "pnpm -r --if-present test",
-    "test:e2e": "pnpm -r --if-present test:e2e"
+    "test:e2e": "pnpm -r --if-present test:e2e",
+    "prepare": "husky"
+  },
+  "lint-staged": {
+    "*.{ts,tsx,js,mjs,jsx}": "eslint --fix",
+    "*.{ts,tsx,js,mjs,jsx,json,md,css,yml,yaml}": "prettier --write"
   },
   "devDependencies": {
-    "typescript": "^5.9.3"
+    "eslint": "^10.13.0",
+    "eslint-config-prettier": "^9.1.2",
+    "eslint-plugin-react-hooks": "^5.2.0",
+    "husky": "^9.1.7",
+    "lint-staged": "^17.6.0",
+    "prettier": "^3.9.10",
+    "typescript": "^5.9.3",
+    "typescript-eslint": "^8.72.0"
   }
 }
