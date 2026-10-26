@@ -2,7 +2,7 @@
 title: 'Story 1.1: pnpm Monorepo Scaffold with Three Packages'
 type: 'chore'
 created: '2026-10-24'
-status: 'in-review'
+status: 'done'
 route: 'dispatch'
 review_loop_iteration: 0
 context: []
@@ -132,6 +132,33 @@ These peer ranges are stale (not updated when NestJS 11 released). The packages 
 ## Spec Change Log
 
 ## Review Triage Log
+
+### Review Findings (code review, 2026-10-26)
+
+**Applied patches:**
+- [x] [Review][Patch] shared-types TypeScript devDep version skew (`^5.6.3` → `^5.9.3`) [packages/shared-types/package.json]
+- [x] [Review][Patch] docker-compose obsolete `version: '3.9'` key removed [docker-compose.yml]
+- [x] [Review][Patch] root `install:all` redundant script removed [package.json]
+- [x] [Review][Patch] Peer dependency mismatches explicitly justified in Implementation Notes [packages/backend/package.json] — 5 NestJS ecosystem packages have stale peer ranges excluding NestJS 11; backward compatible; major version upgrades not pursued per project policy
+
+**Deferred (out of scope for Story 1.1 — handled by later stories):**
+- [x] [Review][Defer] App.tsx raw string `e-Paperé` not wrapped in `t()` [packages/frontend/src/App.tsx:4] — deferred: AD-6 lint enforcement and i18n infrastructure are Story 1.2 / 1.7
+- [x] [Review][Defer] Missing test/lint/validate-i18n scripts in all packages — deferred: Story 1.2 (ESLint), 1.3 (Vitest), 1.4 (CI/validate-i18n)
+- [x] [Review][Defer] decimal.js missing from backend/frontend — deferred: first money arithmetic story (4.x) should add it
+- [x] [Review][Defer] No `.env.example` file — deferred: Story 1.8 (NestJS bootstrap + config validation)
+- [x] [Review][Defer] `index.html` `lang="en"` hardcoded — deferred: Story 1.7 (i18n + dynamic lang attribute)
+- [x] [Review][Defer] docker-compose missing init SQL for `ep_student_id_seq` and restart policy — deferred: ep_student_id_seq created by Prisma migrations (Story 2.1)
+- [x] [Review][Defer] main.tsx throw branch untested — deferred: Story 1.3 adds test framework
+
+**Rejected:**
+- `false` — `moduleResolution: "node"` is correct for CommonJS (`module: "commonjs"`); tested `"node16"` — requires `module: "Node16"` which enforces `.js` extension imports, incompatible with NestJS patterns
+- `false` — Root `--if-present` on lint/test is intentional: typecheck exists in all packages, lint/test don't yet (Stories 1.2/1.3 add them)
+- `false` — shared-types no `exports` field: package is `private: true`, workspace-only; paths alias resolves correctly; no external consumers
+- `false` — Commit message claim "All NestJS packages ^11.2.7": refers to framework packages (common/core/platform-express); `@nestjs/jwt@10` is correct (no v11 exists)
+- `false` — Commit message "@upstash/redis required peer": imprecise terminology; it's a runtime constructor arg, not a declared npm peer; code is correct
+- `false` — `lightningcss` in `allowBuilds`: governs build script execution for transitive deps too; prevents Vite CSS build failures
+- `false` — shared-types `tsconfig.json` no `noEmit`: CLI flag `--noEmit` differentiates typecheck from build; common pattern
+- `false` — `@hookform/resolvers@6` "major jump": v6 is current stable; peer requirements satisfied by installed RHF 7.90 and zod 3.25
 
 ## Verification
 
