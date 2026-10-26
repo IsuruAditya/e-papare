@@ -2,7 +2,7 @@
 title: 'Story 1.2: ESLint, Prettier, and Pre-commit Hooks'
 type: 'chore'
 created: '2026-10-26'
-status: 'in-review'
+status: 'done'
 route: 'dispatch'
 review_loop_iteration: 0
 context: []
@@ -149,3 +149,24 @@ Exactly 2 errors (both `ep-boundaries`), 0 warnings, on the bad files only.
 - Inspect `eslint.config.mjs` — the `ep-boundaries/no-cross-module-deep-imports` inline rule and the React-hooks block scoped to `packages/frontend/**` are present
 - Inspect `package.json` (root) — `lint-staged` block runs `eslint --fix` then `prettier --write`; `prepare: husky` present
 - Inspect `.husky/pre-commit` — runs `pnpm exec lint-staged`
+
+## Review Findings
+
+- [x] [Review][Patch] Upgrade `eslint-plugin-react-hooks` to `^7.1.1` — v7.1.0 explicitly declares ESLint v10 peer support; v5.2.0 declares only `^9.0.0`, creating a peer-range mismatch with the installed `eslint@10.13.0`. [package.json] ✅ Fixed: upgraded to 7.1.1, pnpm lint + typecheck pass.
+- [x] [Review][Patch] Add `.kiro/**` to `eslint.config.mjs` ignores block — `.prettierignore` already excludes `.kiro/`; ESLint ignores block omits it. If `.kiro/` gains TypeScript files, ESLint type-check will unexpectedly pick them up. [eslint.config.mjs] ✅ Fixed: `.kiro/**` added to ignores block.
+- [x] [Review][Defer] `ep-boundaries` rule has no durable test — regression gap when no modules exist [eslint.config.mjs:33-87] — deferred: Story 1.3 installs Vitest; add `RuleTester`-based unit test covering the 4 AC cases (blocked service import, blocked repository import, allowed barrel import, allowed same-module import) at that point.
+- [x] [Review][Defer] `lint-staged` concurrent vs serial task order for overlapping globs not definitively verified [package.json] — deferred: practically safe given `eslint-config-prettier` disables all formatting rules in ESLint; revisit if lint-staged v18+ changes task-ordering semantics.
+
+### Rejected
+
+- `ep-boundaries` only covers `.service`/`.repository` — `false`: rule covers exactly what spec, AGENTS.md, and AC require (`service`/`repository`); other file types are out of scope.
+- `*.module` barrel carved out (DI wiring) — `false`: explicitly spec-directed carve-out per Design Notes.
+- `"semi": true` in `.prettierrc.json` beyond spec Code Map — `low`: Prettier's own default value, no behavioral change, no harm.
+- `src/main.tsx` and `index.html` modified — `low`: formatting-only changes; developer explicitly documented the frozen-constraint trade-off; typecheck passes; excluding source from Prettier would be a worse long-term outcome.
+- Sprint status `review` instead of `in-progress` — `false`: `review` is the correct current state; `in-progress` was the intermediate state during implementation.
+- `resolveRelative` unguarded `pop()` on empty array — `low`: malformed import with excessive `..` would fail TypeScript module resolution before triggering the rule; fix adds complexity for an unreachable practical case.
+- `\w+` regex excludes hyphenated module names — `false`: all 13 planned modules use single lowercase words; no module name with a hyphen exists in the spec.
+- `import.meta.dirname` backslash path on Windows — `false`: empirically refuted; `pnpm lint` exits 0 on this Windows host with Node 24 ESM.
+- `.md` files in `lint-staged` glob but excluded by `.prettierignore` — `low`: no behavioral harm; Prettier silently skips them per its own ignore rules.
+- `yaml@2.9.1` vite lock key mutation not in implementation notes — `low`: cosmetic lockfile snapshot change, no functional impact.
+- `Review Triage Log` and `Spec Change Log` empty — `false`: these are post-review placeholders; expected empty before review.

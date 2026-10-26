@@ -105,6 +105,7 @@ export default tseslint.config(
       'pnpm-lock.yaml',
       '_bmad/**',
       '_bmad-output/**',
+      '.kiro/**',
     ],
   },
 
