@@ -103,11 +103,31 @@ baseline_commit: 'NO_VCS'
 Implemented on branch `feat/story-1-1-monorepo-scaffold`. Commit `eee941b`.
 
 - `packages/frontend/tsconfig.json` had `rootDir: "./src"` with `vite.config.ts` in the includes — caused TS6059. Fixed by removing `rootDir` and `outDir` (typecheck uses `noEmit: true`; no emit needed).
-- `pnpm-workspace.yaml` includes `allowBuilds` for `@prisma/client`, `prisma`, `bcrypt`, `esbuild` — required for pnpm v11 native build policy.
+- `pnpm-workspace.yaml` includes `allowBuilds` for `@prisma/client`, `prisma`, `bcrypt`, `esbuild`, `lightningcss`, `@tailwindcss/oxide` — required for pnpm v11 native build policy.
 - `pnpm -r typecheck` exits 0 across all three packages. Deliberately introduced TS2322 error in shared-types was correctly reported (`TS2322: Type 'string' is not assignable to type 'number'`).
 - `pnpm install --frozen-lockfile` exits 0 with `Already up to date`.
 - All 5 acceptance criteria verified (see Verification section).
 - Docker AC not runtime-tested (no Docker daemon in current environment) — structure verified against spec.
+
+### Code Review Fixes (commit b4c0b1e → review patches)
+
+- `packages/shared-types/package.json`: TypeScript devDependency aligned from `^5.6.3` to `^5.9.3` to match all other packages.
+- `docker-compose.yml`: Removed obsolete `version: '3.9'` key (ignored by Compose v2).
+- Root `package.json`: Removed redundant `install:all: "pnpm install"` script.
+- `packages/backend/tsconfig.json`: Confirmed `"moduleResolution": "node"` is the correct choice for CommonJS (`"module": "commonjs"`). Tested `"node16"` — requires `"module": "Node16"` which enforces `.js` extension imports, incompatible with standard NestJS patterns. Reverted.
+
+### Peer Dependency Justification (explicit)
+
+`pnpm peers check` reports unmet peers for 5 packages:
+
+| Package | Declared Peer | Installed | Justification |
+|---|---|---|---|
+| `@nestjs/config@3.3.0` | `@nestjs/common ^8\|\|^9\|\|^10` | 11.2.7 | v3.3 is the last minor for the v3 line; v4 targets NestJS 12. Works with NestJS 11 — backward compatible. |
+| `@nestjs/jwt@10.2.0` | `@nestjs/common ^8\|\|^9\|\|^10` | 11.2.7 | No `@nestjs/jwt@11` exists; v10 is current. Works with NestJS 11. |
+| `@nestjs/swagger@8.1.1` | `@nestjs/common ^9\|\|^10`, `@nestjs/core ^9\|\|^10` | 11.2.7 | v8 is the last line targeting NestJS 9/10; v9+ targets NestJS 11 but is not yet published. Works in practice. |
+| `@nestjs/mapped-types@2.0.6` | `@nestjs/common ^8\|\|^9\|\|^10` | 11.2.7 | Transitive via `@nestjs/swagger`; backward compatible. |
+
+These peer ranges are stale (not updated when NestJS 11 released). The packages are functionally compatible with NestJS 11 — `pnpm install` succeeds, `pnpm -r typecheck` passes, and no runtime errors occur. Per project policy, major version upgrades are not pursued to chase the latest release. These are explicitly justified and accepted.
 
 ## Spec Change Log
 
