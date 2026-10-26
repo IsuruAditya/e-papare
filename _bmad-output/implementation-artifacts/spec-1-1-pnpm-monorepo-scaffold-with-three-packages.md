@@ -2,7 +2,7 @@
 title: 'Story 1.1: pnpm Monorepo Scaffold with Three Packages'
 type: 'chore'
 created: '2026-10-24'
-status: 'in-progress'
+status: 'in-review'
 route: 'dispatch'
 review_loop_iteration: 0
 context: []
@@ -69,27 +69,27 @@ baseline_commit: 'NO_VCS'
 ## Tasks & Acceptance
 
 **Execution:**
-- [ ] Create implementation branch `feat/story-1-1-monorepo-scaffold`
-- [ ] `pnpm-workspace.yaml` (root) — create with `packages: ['packages/*']`
-- [ ] `tsconfig.base.json` (root) — create with strict settings: `strict`, `noUncheckedIndexedAccess`, `exactOptionalPropertyTypes`, `skipLibCheck: true`, `esModuleInterop: true`
-- [ ] `.nvmrc` (root) — create with value `24` (or exact LTS patch version)
-- [ ] `.gitignore` (root) — create covering `node_modules`, `dist`, `.env*`, `*.local`, `.DS_Store`; explicitly allow `prisma/migrations/`
-- [ ] `docker-compose.yml` (root) — create with `postgres:16` service; env vars `POSTGRES_USER`, `POSTGRES_PASSWORD`, `POSTGRES_DB`; port `5432:5432`; named volume
-- [ ] `packages/shared-types/package.json` — create with `name: "@e-papere/shared-types"`, `private: true`, `main: "./src/index.ts"`, deps: `{ "zod": "^3.23.8" }`, scripts: `typecheck`, `build`
-- [ ] `packages/shared-types/tsconfig.json` — extends `../../tsconfig.base.json`; `moduleResolution: "bundler"`; `outDir: "./dist"`
-- [ ] `packages/shared-types/src/index.ts` — create as empty barrel (`export {};`)
-- [ ] `packages/backend/package.json` — create with `name: "@e-papere/backend"`, `private: true`; runtime deps: `@nestjs/core`, `@nestjs/common`, `@nestjs/platform-express`, `@nestjs/config`, `@nestjs/jwt`, `@nestjs/swagger`, `@prisma/client`, `pino`, `pino-http`, `express-rate-limit`, `rate-limit-redis`, `helmet`, `bcrypt`, `uuid`, `reflect-metadata`, `rxjs`; devDeps: `prisma`, `@nestjs/testing`, `@types/bcrypt`, `@types/uuid`, `@types/node`, `typescript`, `ts-node`; scripts: `build`, `start`, `typecheck`
-- [ ] `packages/backend/tsconfig.json` — extends root base; add `"emitDecoratorMetadata": true`, `"experimentalDecorators": true`; `"module": "commonjs"`, `"target": "ES2022"`, `"outDir": "./dist"`
-- [ ] `packages/backend/src/main.ts` — create minimal placeholder (comment only, no real NestJS bootstrap yet — that is Story 1.8)
-- [ ] `packages/frontend/package.json` — create with `name: "@e-papere/frontend"`, `private: true`; deps: `react`, `react-dom`, `react-router-dom` (v7), `@tanstack/react-query` (v5), `react-hook-form`, `react-i18next`, `i18next`; devDeps: `vite`, `@vitejs/plugin-react`, `typescript`, `tailwindcss` (v4), `@tailwindcss/vite`, `@types/react`, `@types/react-dom`; scripts: `dev`, `build`, `typecheck`
-- [ ] `packages/frontend/tsconfig.json` — extends root base; `"jsx": "react-jsx"`, `"moduleResolution": "bundler"`, `"target": "ES2022"`, `"lib": ["ES2022", "DOM", "DOM.Iterable"]`
-- [ ] `packages/frontend/vite.config.ts` — `@vitejs/plugin-react` + `@tailwindcss/vite`; no other plugins
-- [ ] `packages/frontend/index.html` — standard Vite HTML entry referencing `src/main.tsx`
-- [ ] `packages/frontend/src/main.tsx` — minimal `ReactDOM.createRoot` render of `<App />`
-- [ ] `packages/frontend/src/App.tsx` — minimal functional component returning `<div>e-Paperé</div>`
-- [ ] Run `pnpm install` from root and verify it exits 0
-- [ ] Run `pnpm -r typecheck` and verify it exits 0
-- [ ] Update sprint-status.yaml: `epic-1` → `in-progress`; `1-1-pnpm-monorepo-scaffold-with-three-packages` → `done`
+- [x] Create implementation branch `feat/story-1-1-monorepo-scaffold`
+- [x] `pnpm-workspace.yaml` (root) — create with `packages: ['packages/*']`
+- [x] `tsconfig.base.json` (root) — create with strict settings: `strict`, `noUncheckedIndexedAccess`, `exactOptionalPropertyTypes`, `skipLibCheck: true`, `esModuleInterop: true`
+- [x] `.nvmrc` (root) — create with value `24` (or exact LTS patch version)
+- [x] `.gitignore` (root) — create covering `node_modules`, `dist`, `.env*`, `*.local`, `.DS_Store`; explicitly allow `prisma/migrations/`
+- [x] `docker-compose.yml` (root) — create with `postgres:16` service; env vars `POSTGRES_USER`, `POSTGRES_PASSWORD`, `POSTGRES_DB`; port `5432:5432`; named volume
+- [x] `packages/shared-types/package.json` — create with `name: "@e-papere/shared-types"`, `private: true`, `main: "./src/index.ts"`, deps: `{ "zod": "^3.23.8" }`, scripts: `typecheck`, `build`
+- [x] `packages/shared-types/tsconfig.json` — extends `../../tsconfig.base.json`; `moduleResolution: "bundler"`; `outDir: "./dist"`
+- [x] `packages/shared-types/src/index.ts` — create as empty barrel (`export {};`)
+- [x] `packages/backend/package.json` — create with `name: "@e-papere/backend"`, `private: true`; runtime deps: `@nestjs/core`, `@nestjs/common`, `@nestjs/platform-express`, `@nestjs/config`, `@nestjs/jwt`, `@nestjs/swagger`, `@prisma/client`, `pino`, `pino-http`, `express-rate-limit`, `rate-limit-redis`, `helmet`, `bcrypt`, `uuid`, `reflect-metadata`, `rxjs`; devDeps: `prisma`, `@nestjs/testing`, `@types/bcrypt`, `@types/uuid`, `@types/node`, `typescript`, `ts-node`; scripts: `build`, `start`, `typecheck`
+- [x] `packages/backend/tsconfig.json` — extends root base; add `"emitDecoratorMetadata": true`, `"experimentalDecorators": true`; `"module": "commonjs"`, `"target": "ES2022"`, `"outDir": "./dist"`
+- [x] `packages/backend/src/main.ts` — create minimal placeholder (comment only, no real NestJS bootstrap yet — that is Story 1.8)
+- [x] `packages/frontend/package.json` — create with `name: "@e-papere/frontend"`, `private: true`; deps: `react`, `react-dom`, `react-router-dom` (v7), `@tanstack/react-query` (v5), `react-hook-form`, `react-i18next`, `i18next`; devDeps: `vite`, `@vitejs/plugin-react`, `typescript`, `tailwindcss` (v4), `@tailwindcss/vite`, `@types/react`, `@types/react-dom`; scripts: `dev`, `build`, `typecheck`
+- [x] `packages/frontend/tsconfig.json` — extends root base; `"jsx": "react-jsx"`, `"moduleResolution": "bundler"`, `"target": "ES2022"`, `"lib": ["ES2022", "DOM", "DOM.Iterable"]`
+- [x] `packages/frontend/vite.config.ts` — `@vitejs/plugin-react` + `@tailwindcss/vite`; no other plugins
+- [x] `packages/frontend/index.html` — standard Vite HTML entry referencing `src/main.tsx`
+- [x] `packages/frontend/src/main.tsx` — minimal `ReactDOM.createRoot` render of `<App />`
+- [x] `packages/frontend/src/App.tsx` — minimal functional component returning `<div>e-Paperé</div>`
+- [x] Run `pnpm install` from root and verify it exits 0
+- [x] Run `pnpm -r typecheck` and verify it exits 0
+- [x] Update sprint-status.yaml: `epic-1` → `in-progress`; `1-1-pnpm-monorepo-scaffold-with-three-packages` → `done`
 
 **Acceptance Criteria:**
 - Given a clean checkout, when `pnpm install` is run from the root, then all three packages install without errors and a single `pnpm-lock.yaml` is created at the root.
@@ -99,6 +99,15 @@ baseline_commit: 'NO_VCS'
 - Given `.gitignore` at root, when inspected, then `packages/backend/prisma/migrations/` is NOT excluded (migrations are version-controlled).
 
 ## Implementation Notes
+
+Implemented on branch `feat/story-1-1-monorepo-scaffold`. Commit `eee941b`.
+
+- `packages/frontend/tsconfig.json` had `rootDir: "./src"` with `vite.config.ts` in the includes — caused TS6059. Fixed by removing `rootDir` and `outDir` (typecheck uses `noEmit: true`; no emit needed).
+- `pnpm-workspace.yaml` includes `allowBuilds` for `@prisma/client`, `prisma`, `bcrypt`, `esbuild` — required for pnpm v11 native build policy.
+- `pnpm -r typecheck` exits 0 across all three packages. Deliberately introduced TS2322 error in shared-types was correctly reported (`TS2322: Type 'string' is not assignable to type 'number'`).
+- `pnpm install --frozen-lockfile` exits 0 with `Already up to date`.
+- All 5 acceptance criteria verified (see Verification section).
+- Docker AC not runtime-tested (no Docker daemon in current environment) — structure verified against spec.
 
 ## Spec Change Log
 

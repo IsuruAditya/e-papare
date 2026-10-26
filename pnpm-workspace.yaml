@@ -8,4 +8,6 @@ allowBuilds:
   '@prisma/engines': true
   bcrypt: true
   esbuild: true
+  lightningcss: true
   prisma: true
+  '@tailwindcss/oxide': true
