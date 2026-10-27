@@ -2,7 +2,7 @@
 title: 'Story 1.4: GitHub Actions CI Pipeline with i18n and Type Gates'
 type: 'feature'
 created: '2026-10-27'
-status: 'in-review'
+status: 'done'
 route: 'dispatch'
 review_loop_iteration: 0
 baseline_commit: 'de96c81b1462136d8f01773dcd52e1583c609c3c'
@@ -94,6 +94,29 @@ context:
 ## Spec Change Log
 
 ## Review Triage Log
+
+### Review Findings (code review 2026-10-27, baseline de96c81..38f0161)
+
+**Patch (all three applied during this review and re-verified green):**
+
+- [x] [Review][Patch] Add least-privilege `permissions: contents: read` to workflow [.github/workflows/ci.yml] — The workflow had no top-level `permissions` block, so `GITHUB_TOKEN` inherited the repository default (potentially read/write). The job only reads the repo (no releases, comments, deployments), so it is pinned to `contents: read`. Directly satisfies review focus #9 (least-privilege, no unnecessary token scope).
+- [x] [Review][Patch] Add `timeout-minutes: 20` to the `build-and-test` job [.github/workflows/ci.yml] — The job had no timeout; a hung install/test/cache step could run to the 6-hour GitHub default, contradicting the stated CI-minutes-saving intent behind the `concurrency` block.
+- [x] [Review][Patch] Silence `MODULE_TYPELESS_PACKAGE_JSON` warning via `scripts/package.json` [scripts/package.json] — `validate-i18n.ts` is ESM (`import`, `import.meta.url`) but lived under no package manifest, so `node --experimental-strip-types` emitted a perf warning on every run that could obscure the script's own `console.error` failure output. Added a scoped `scripts/package.json` with `"type": "module"` (accurate — the file *is* an ES module). Chosen over editing root `package.json` to avoid side effects on other tooling (the exact concern the implementation note raised). `scripts/` is outside the `packages/*` workspace glob, so pnpm does not treat it as a workspace package (verified: install still reports 4 workspace projects). Review focus #10 — fix is justified.
+
+**Defer:**
+
+- [x] [Review][Defer] i18n gate logic (`main`/`flattenKeys`/`discoverLocaleRoots`) has no automated test [scripts/validate-i18n.ts] — deferred: Story 1.4 spec does not require tests, and the functions are not exported, so a durable test needs a refactor to make them importable (added public surface, beyond an unambiguous patch). The gate's load-bearing discrepancy/exit-code behavior is unexercised by `pnpm -r test` (scripts/ is in no package; every current run hits the empty-state branch and returns 0). Risk: a silent regression in the diff/exit logic could let a missing `si/` key reach `main` with CI green (the exact AD-30 failure AGENTS.md warns about). Settle by adding a Vitest suite (temp-dir fixtures, mirroring `ep-boundaries.rule.test.ts`) asserting: complete pair → 0, missing si key → 1 + key named, extra si key → 1, no roots → 0. I manually reproduced all four paths during this review (plus malformed-JSON and missing-si-file cases); they behave correctly today — this defers the *regression protection*, not a present defect.
+
+**Rejected:**
+
+- `false` — "Mojibake / corrupted em-dashes in ci.yml, eslint.config.mjs, spec.md": Refuted by raw-byte inspection. The dash bytes in `ci.yml` are `0xE2 0x80 0x94` = valid UTF-8 EM DASH (U+2014). The `ΓÇö` three reviewers saw is a PowerShell CP437 console display artifact when rendering UTF-8, not file corruption. The committed files are valid UTF-8.
+- `false` — "lint-staged / `disableTypeChecked` scripts override untested, may error": Refuted by execution. `eslint --fix scripts/validate-i18n.ts` (lint-staged style, explicit path) and `eslint scripts` (CI style) both exit 0; the `scripts/**/*.ts` override resolves for both invocation paths.
+- `false` (as a code defect) — "root `lint` modified / `eslint.config.mjs` & `package.json` edited beyond Code Map READ-ONLY scope": The edits are real, but they are a correct, verified lint-coverage fix that satisfies review focus #5 (scripts/ must be linted in CI) — `scripts/` was genuinely unlinted before. CI and local both call `pnpm lint`, so parity holds. The only true gap is a missing Spec Change Log entry; the triage rule rejects any finding whose fix is to edit the spec/Code Map.
+- `false` — "deferred echo placeholders always run / could be marked as required checks": The spec explicitly mandates visibly-present, non-failing placeholders; they carry no `continue-on-error` and sit after the enabled gates, so they cannot mask a real failure. The "someone might mark them required in branch protection" is speculative, not a code defect.
+- `false` — "YAML validated only via Prettier, not a real linter": Prettier uses the `yaml` package as its parser; it parses `ci.yml` cleanly. I also confirmed top-level keys and structure parse correctly. The workflow is syntactically valid YAML.
+- rejected (unreachable state) — "en/si top-level JSON as array/primitive silently treated as empty": A valid i18n namespace file is always a JSON object; a top-level array/primitive is not a reachable valid state. Fix would add a guard branch for an input the program never legitimately receives.
+- `low` (not worth the added complexity) — "malformed JSON crashes with uncaught SyntaxError instead of a clean `[validate-i18n]` message": The gate still fails loudly and non-zero (no masking), which is correct for a CI gate. A friendlier message is a nicety; left to the same future housekeeping pass noted for the gate test.
+- `low` (negligible everyday harm) — "si-only namespace file never checked (file-level one-directional)": The blocking direction (en key missing in si → fail) works and is what protects the Sinhala UI per AD-30. An orphan `si/` file is a benign extra translation, not a user-facing missing key; en-present namespaces already get full bidirectional per-key parity.
 
 ## Design Notes
 
