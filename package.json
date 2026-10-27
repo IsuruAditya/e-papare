@@ -9,10 +9,11 @@
   "packageManager": "pnpm@11.5.3",
   "scripts": {
     "typecheck": "pnpm -r typecheck",
-    "lint": "pnpm -r --if-present lint && prettier --check .",
+    "lint": "pnpm -r --if-present lint && eslint scripts && prettier --check .",
     "format": "prettier --write .",
     "test": "pnpm -r --if-present test",
     "test:e2e": "playwright test",
+    "validate-i18n": "node --experimental-strip-types scripts/validate-i18n.ts",
     "prepare": "husky"
   },
   "lint-staged": {

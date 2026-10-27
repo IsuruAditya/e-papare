@@ -1,0 +1,68 @@
+name: CI
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+
+# Cancel superseded runs on the same ref to save CI minutes.
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build-and-test:
+    name: Build & Test
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 11.5.3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      # --- Enabled gates (prerequisites exist today) -------------------------
+      - name: Typecheck
+        run: pnpm -r typecheck
+
+      - name: Lint (ESLint + Prettier)
+        run: pnpm lint
+
+      - name: Test (Vitest, all packages)
+        run: pnpm -r test
+
+      - name: Validate i18n (en/ vs si/ key parity)
+        run: pnpm validate-i18n
+
+      - name: Build backend
+        run: pnpm --filter @e-papere/backend build
+
+      - name: Build frontend
+        run: pnpm --filter @e-papere/frontend build
+
+      # --- Deferred gates (activate when their prerequisite lands) -----------
+      # These steps are intentionally non-failing placeholders. They do NOT use
+      # continue-on-error on any enabled gate, so they cannot mask a real
+      # failure above. Replace the echo with the real command in the noted story.
+
+      - name: Prisma validate (deferred to Story 1.8)
+        run: echo "Deferred to Story 1.8 — no prisma/schema.prisma yet. Will run 'pnpm --filter @e-papere/backend exec prisma validate'."
+
+      - name: OpenAPI lint / redocly (deferred to Story 1.8+)
+        run: echo "Deferred to Story 1.8+ — no generated OpenAPI spec yet. Will run 'redocly lint'."
+
+      - name: Playwright E2E (deferred to Story 9.3)
+        run: echo "Deferred to Story 9.3 — E2E journeys (UJ-1..UJ-5) not implemented yet. Will run 'pnpm test:e2e' with browsers installed."
