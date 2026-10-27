@@ -12,3 +12,7 @@ allowBuilds:
   prisma: true
   '@tailwindcss/oxide': true
   '@swc/core': true
+  # Scarf is download-analytics telemetry (its postinstall phones home); we do
+  # not run it. Recorded as a denied build so a clean --frozen-lockfile install
+  # does not fail with ERR_PNPM_IGNORED_BUILDS on an undecided build script.
+  '@scarf/scarf': false

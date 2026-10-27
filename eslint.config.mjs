@@ -42,6 +42,18 @@ export default tseslint.config(
     },
   },
 
+  // 3b. Root tooling scripts (e.g. scripts/validate-i18n.ts): standalone Node
+  //     CLIs that live outside any package tsconfig. Use syntactic (non
+  //     type-checked) linting and allow console — the script's output is its
+  //     entire purpose.
+  {
+    files: ['scripts/**/*.ts'],
+    extends: [tseslint.configs.disableTypeChecked],
+    rules: {
+      'no-console': 'off',
+    },
+  },
+
   // 4. Frontend: React hooks rules (scoped to the frontend package only).
   {
     files: ['packages/frontend/**/*.{ts,tsx}'],
