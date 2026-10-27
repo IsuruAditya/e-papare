@@ -13,6 +13,7 @@ out/
 .env
 .env.*
 !.env.example
+!.env.test.example
 
 # Local overrides
 *.local
@@ -26,9 +27,11 @@ Thumbs.db
 *.swp
 *.swo
 
-# Test coverage
+# Test coverage & Playwright reports
 coverage/
 .nyc_output/
+playwright-report/
+test-results/
 
 # Logs
 *.log

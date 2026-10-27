@@ -11,3 +11,4 @@ allowBuilds:
   lightningcss: true
   prisma: true
   '@tailwindcss/oxide': true
+  '@swc/core': true
