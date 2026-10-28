@@ -315,7 +315,8 @@ No `z-index` stacking beyond: content (1) → sticky topbar/sidebar (100) → dr
 
 | Context | Radius |
 |---|---|
-| Badges, pills, inline chips | `4px` (`--radius-sm`) |
+| Status pills (semantic state badges) | `9999px` (`--radius-full`) — fully rounded |
+| Compact badges, inline chips (non-status) | `4px` (`--radius-sm`) |
 | Buttons, inputs, small cards, table action buttons | `8px` (`--radius-md`) |
 | Cards, panels, dialog boxes, table containers | `12px` (`--radius-lg`) |
 | Today's Class hero banner, feature highlight blocks | `16px` (`--radius-xl`) |
@@ -443,6 +444,8 @@ Consistent rule: outer container radius = `--radius-lg`; elements inside a card 
 - All tables paginated (default page size: 20, max: 100) per AD-47.
 
 ### Status Pills / Badges
+
+> **Radius rule (resolved 2026-10-28, Story 1.6 review):** Status pills are **fully rounded** — `border-radius: 9999px` (`--radius-full`). This is the deliberate exception to the compact-badge 4px radius: the Shapes table's 4px entry applies to non-status badges and inline chips only. There is no remaining contradiction between the Shapes table and this component spec.
 
 - `display: inline-flex; align-items: center; gap: 4px; font-size: 11px; font-weight: 600; padding: 3px 9px; border-radius: 9999px`.
 - Dot indicator: 6px circle, matching foreground color.

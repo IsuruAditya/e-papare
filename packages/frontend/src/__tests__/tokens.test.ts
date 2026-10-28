@@ -239,6 +239,52 @@ describe('tokens.css — typography / spacing / radius scale (DESIGN.md)', () =>
   });
 });
 
+describe('tokens.css — Story 1.6 elevation / ring / focus tokens (DESIGN.md)', () => {
+  const light = extractBlock(tokensCss, ':root');
+  const dark = extractBlock(tokensCss, '.dark');
+
+  it('declares the light elevation + ring glow tokens verbatim from DESIGN.md', () => {
+    const expected: Record<string, string> = {
+      'shadow-elevated': '0 4px 20px rgba(62, 58, 152, 0.1)',
+      'shadow-card-hover': '0 2px 8px rgba(62, 58, 152, 0.08)',
+      'ring-focus': '0 0 0 3px rgba(62, 58, 152, 0.15)',
+      'ring-error': '0 0 0 3px rgba(239, 68, 68, 0.15)',
+    };
+    for (const [name, value] of Object.entries(expected)) {
+      expect(readProp(light, name), name).toBe(value);
+    }
+  });
+
+  it('declares the focus outline width + Sinhala heading line-height tokens', () => {
+    expect(readProp(light, 'focus-outline-width')).toBe('3px');
+    expect(readProp(light, 'leading-heading-sinhala')).toBe('1.4');
+  });
+
+  it('overrides the elevation shadows to neutral rgba(0,0,0,.3) under .dark', () => {
+    // DESIGN.md: dark surfaces use a neutral shadow, not the brand tint.
+    expect(readProp(dark, 'shadow-elevated')).toBe('0 4px 20px rgba(0, 0, 0, 0.3)');
+    expect(readProp(dark, 'shadow-card-hover')).toBe('0 2px 8px rgba(0, 0, 0, 0.3)');
+  });
+
+  it('does NOT redeclare the ring glows under .dark (single DESIGN.md value)', () => {
+    expect(readProp(dark, 'ring-focus')).toBeUndefined();
+    expect(readProp(dark, 'ring-error')).toBeUndefined();
+  });
+});
+
+describe('index.css — Story 1.6 shadow utilities + Sinhala heading rule', () => {
+  it('maps the elevation shadows into @theme so shadow utilities generate', () => {
+    expect(indexCss).toMatch(/--shadow-elevated:\s*var\(--shadow-elevated\)/);
+    expect(indexCss).toMatch(/--shadow-card-hover:\s*var\(--shadow-card-hover\)/);
+  });
+
+  it('sets the Sinhala heading line-height on html[lang="si"] headings', () => {
+    expect(indexCss).toMatch(
+      /html\[lang='si'\]\s*:is\(h1,\s*h2,\s*h3,\s*h4,\s*h5,\s*h6\)\s*\{[^}]*line-height:\s*var\(--leading-heading-sinhala\)/,
+    );
+  });
+});
+
 describe('index.css — Sinhala base-layer typography rules (DESIGN.md)', () => {
   it('switches the root family to the Sinhala stack for html[lang="si"]', () => {
     expect(indexCss).toMatch(/html\[lang='si'\]\s*\{[^}]*font-family:\s*var\(--font-sans-si\)/);

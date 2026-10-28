@@ -14,6 +14,14 @@
 
 @import 'tailwindcss';
 @custom-variant dark (&:where(.dark, .dark *));
+/*
+ * `si:` variant — matches when the document language is Sinhala
+ * (`html[lang='si']`). Zero-specificity `:where()` scope, mirroring the dark
+ * variant (AD-46). Lets components strip English-only typographic treatments
+ * (uppercase, letter-spacing) for Sinhala text without a per-theme component
+ * variant (DESIGN.md Sinhala rules).
+ */
+@custom-variant si (&:where(html[lang='si'] *));
 @import './fonts.css';
 @import './tokens.css';
 
@@ -95,6 +103,12 @@
   --spacing-8: var(--space-8);
   --spacing-10: var(--space-10);
   --spacing-12: var(--space-12);
+
+  /* Elevation shadows -> `shadow-elevated`, `shadow-card-hover`. Because the
+     underlying token is reassigned under `.dark`, a single `shadow-elevated`
+     utility themes correctly in both modes (DESIGN.md "Elevation & Depth"). */
+  --shadow-elevated: var(--shadow-elevated);
+  --shadow-card-hover: var(--shadow-card-hover);
 }
 
 /*
@@ -138,5 +152,80 @@
   /* Inline English spans inside a Sinhala page opt back into the Latin stack. */
   html[lang='si'] [lang='en'] {
     font-family: var(--font-sans-en);
+  }
+
+  /* Sinhala headings need a taller line-height than body copy for their vowel
+     diacritics, but not as tall as body text (DESIGN.md "Heading Sinhala:
+     line-height 1.4 minimum"). Resolves the deferred Story-1.5 heading gap. */
+  html[lang='si'] :is(h1, h2, h3, h4, h5, h6) {
+    line-height: var(--leading-heading-sinhala);
+  }
+}
+
+/*
+ * Loading-skeleton shimmer (DESIGN.md / EXPERIENCE.md "Loading State":
+ * 1.4s infinite). The gradient stop colors are semantic tokens — light uses
+ * brand-subtle -> brand-tint, dark uses surface-elevated -> border — so the
+ * shimmer themes automatically via `.dark` variable reassignment.
+ */
+@layer utilities {
+  /*
+   * Select chevron arrow. The wrapper gets `.ep-select-arrow`; its `::after`
+   * renders a chevron whose SHAPE comes from an SVG mask and whose COLOR comes
+   * from `--color-text-muted`. Because `.dark` reassigns that token, the arrow
+   * retints in both themes — unlike the old data-URI `background-image` with a
+   * baked-in `#6b6b8a` stroke, which could not read a CSS variable.
+   */
+  .ep-select-arrow::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    right: 12px;
+    width: 12px;
+    height: 12px;
+    transform: translateY(-50%);
+    pointer-events: none;
+    background-color: var(--color-text-muted);
+    -webkit-mask: url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2012%2012'%3E%3Cpath%20fill='none'%20stroke='%23000'%20stroke-width='1.5'%20d='M2%204l4%204%204-4'/%3E%3C/svg%3E")
+      no-repeat center / contain;
+    mask: url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2012%2012'%3E%3Cpath%20fill='none'%20stroke='%23000'%20stroke-width='1.5'%20d='M2%204l4%204%204-4'/%3E%3C/svg%3E")
+      no-repeat center / contain;
+  }
+
+  .ep-skeleton {
+    background: linear-gradient(
+      90deg,
+      var(--color-brand-subtle) 25%,
+      var(--color-brand-tint) 50%,
+      var(--color-brand-subtle) 75%
+    );
+    background-size: 200% 100%;
+    animation: ep-shimmer 1.4s ease-in-out infinite;
+  }
+
+  .dark .ep-skeleton {
+    background: linear-gradient(
+      90deg,
+      var(--color-surface-elevated) 25%,
+      var(--color-border) 50%,
+      var(--color-surface-elevated) 75%
+    );
+    background-size: 200% 100%;
+  }
+
+  @keyframes ep-shimmer {
+    0% {
+      background-position: 200% 0;
+    }
+    100% {
+      background-position: -200% 0;
+    }
+  }
+
+  /* Respect reduced-motion: freeze the shimmer, keep the placeholder color. */
+  @media (prefers-reduced-motion: reduce) {
+    .ep-skeleton {
+      animation: none;
+    }
   }
 }

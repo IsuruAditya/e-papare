@@ -111,6 +111,21 @@
   --mobile-nav-height: 60px;
   --touch-target-min: 44px;
   --focus-ring-offset: 2px;
+
+  /* ---- Elevation & affordance shadows (DESIGN.md "Elevation & Depth") ----
+     Values copied verbatim from DESIGN.md; the sanctioned rgba glows live only
+     here so component code never inlines them twice (AD-10). Borders — not
+     shadows — carry default elevation; these are reserved for Elevated/Focus. */
+  --shadow-elevated: 0 4px 20px rgba(62, 58, 152, 0.1);
+  --shadow-card-hover: 0 2px 8px rgba(62, 58, 152, 0.08);
+  --ring-focus: 0 0 0 3px rgba(62, 58, 152, 0.15);
+  --ring-error: 0 0 0 3px rgba(239, 68, 68, 0.15);
+
+  /* ---- Focus outline (DESIGN.md "focus-ring: 3px solid #3E3A98") ---- */
+  --focus-outline-width: 3px;
+
+  /* ---- Sinhala heading line-height (DESIGN.md "Heading Sinhala: 1.4 min") ---- */
+  --leading-heading-sinhala: 1.4;
 }
 
 .dark {
@@ -156,4 +171,11 @@
   /* ---- Disabled ---- */
   --color-disabled-bg: #1a1935;
   --color-disabled-border: #252347;
+
+  /* ---- Elevation shadows (DESIGN.md: dark shadows use rgba(0,0,0,.3), not the
+     brand tint — dark surfaces don't need a color-tinted shadow). The focus /
+     error ring glows keep their brand/danger rgba in both themes, matching
+     DESIGN.md's Form Controls spec which defines a single glow value. ---- */
+  --shadow-elevated: 0 4px 20px rgba(0, 0, 0, 0.3);
+  --shadow-card-hover: 0 2px 8px rgba(0, 0, 0, 0.3);
 }
