@@ -1,0 +1,76 @@
+{
+  "app": {
+    "name": "e-Paperé"
+  },
+  "skipLink": "Skip to main content",
+  "topbar": {
+    "openMenu": "Open navigation menu",
+    "closeMenu": "Close navigation menu",
+    "language": {
+      "switchToEnglish": "Switch to English",
+      "switchToSinhala": "සිංහලට මාරු වන්න"
+    },
+    "theme": {
+      "switchToDark": "Switch to dark mode",
+      "switchToLight": "Switch to light mode"
+    },
+    "notifications": "Notifications",
+    "account": "Account menu"
+  },
+  "nav": {
+    "mainLabel": "Main navigation",
+    "home": "Home",
+    "dashboard": "Dashboard",
+    "courses": "Courses",
+    "myCourses": "My Courses",
+    "browse": "Browse Courses",
+    "schedule": "Schedule",
+    "payments": "Payments",
+    "notifications": "Notifications",
+    "account": "Account",
+    "profile": "Profile",
+    "help": "Help",
+    "queue": "Verification Queue",
+    "approved": "Approved",
+    "clarification": "Clarification",
+    "rejected": "Rejected",
+    "unmatched": "Unmatched",
+    "audit": "Audit Trail",
+    "summaries": "Payment Summaries",
+    "students": "Students",
+    "enrollments": "Enrollments",
+    "invoices": "Invoices",
+    "teachers": "Teachers",
+    "migration": "Migration",
+    "templates": "WhatsApp Templates",
+    "config": "System Configuration",
+    "accessPolicy": "Access Policy"
+  },
+  "landing": {
+    "title": "e-Paperé Online Institute",
+    "subtitle": "Student management and learning portal.",
+    "returnNotice": "Please sign in to continue to {{path}}.",
+    "signInPlaceholder": "Sign-in is available in a later release."
+  },
+  "accessRestricted": {
+    "title": "Access restricted",
+    "body": "You do not have permission to view this page.",
+    "goToDashboard": "Go to your dashboard"
+  },
+  "notFound": {
+    "title": "Page not found",
+    "body": "The page you are looking for does not exist.",
+    "goHome": "Go to the home page"
+  },
+  "roles": {
+    "STUDENT": "Student",
+    "TEACHER": "Teacher",
+    "FINANCE_ADMIN": "Finance Administrator",
+    "ADMINISTRATOR": "Administrator",
+    "SUPER_ADMINISTRATOR": "Owner"
+  },
+  "placeholder": {
+    "comingSoon": "This dashboard is coming soon.",
+    "roleDashboard": "{{role}} dashboard"
+  }
+}

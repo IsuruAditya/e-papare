@@ -1,0 +1,16 @@
+{
+  "PENDING_ACTIVATION": "සක්‍රිය කිරීම් අපේක්ෂිත",
+  "ACTIVE": "සක්‍රිය",
+  "SUSPENDED": "අත්හිටුවා",
+  "DISABLED": "අක්‍රිය",
+  "SUBMITTED": "ඉදිරිපත් කරන ලදී",
+  "UNDER_REVIEW": "සමාලෝචනය යටතේ",
+  "APPROVED": "අනුමත",
+  "REQUIRES_CLARIFICATION": "පැහැදිලිකිරීමක් අවශ්‍යයි",
+  "REJECTED": "ප්‍රතික්ෂේප",
+  "OVERDUE": "කාලය ඉකුත්",
+  "PARTIAL": "අර්ධ ගෙවීමක්",
+  "UNMATCHED": "නොගැළපෙන",
+  "ACCESS_ACTIVE": "ප්‍රවේශය සක්‍රිය",
+  "ACCESS_LOCKED": "ප්‍රවේශය අවහිර"
+}

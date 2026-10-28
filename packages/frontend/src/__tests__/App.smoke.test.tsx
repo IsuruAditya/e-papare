@@ -1,15 +1,13 @@
 import { describe, it, expect } from 'vitest';
-import { render, screen, cleanup } from '@testing-library/react';
-import { afterEach } from 'vitest';
+import { render, screen } from '@testing-library/react';
 import App from '../App';
 
-afterEach(() => {
-  cleanup();
-});
-
 describe('App smoke test', () => {
-  it('renders without throwing and shows placeholder text', () => {
+  it('mounts the shell without throwing and renders the public landing', async () => {
     expect(() => render(<App />)).not.toThrow();
-    expect(screen.getByText('e-Paperé')).toBeInTheDocument();
+    // The landing (`/`) shows the app name in the header and the landing title.
+    expect(await screen.findByRole('heading', { level: 1 })).toHaveTextContent(
+      'e-Paperé Online Institute',
+    );
   });
 });

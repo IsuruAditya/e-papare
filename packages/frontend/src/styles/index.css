@@ -228,4 +228,29 @@
       animation: none;
     }
   }
+
+  /*
+   * Navigation drawer slide-in (EXPERIENCE.md Transitions: "transform
+   * translateX over 200ms on mobile slide-in only"). The panel animates from
+   * off-screen-left to in-place on mount. Reduced-motion users get no transform
+   * animation (the panel simply appears).
+   */
+  .ep-drawer-panel {
+    animation: ep-drawer-in 0.2s ease-out;
+  }
+
+  @keyframes ep-drawer-in {
+    from {
+      transform: translateX(-100%);
+    }
+    to {
+      transform: translateX(0);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .ep-drawer-panel {
+      animation: none;
+    }
+  }
 }

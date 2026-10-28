@@ -1,0 +1,16 @@
+{
+  "PENDING_ACTIVATION": "Pending Activation",
+  "ACTIVE": "Active",
+  "SUSPENDED": "Suspended",
+  "DISABLED": "Disabled",
+  "SUBMITTED": "Submitted",
+  "UNDER_REVIEW": "Under Review",
+  "APPROVED": "Approved",
+  "REQUIRES_CLARIFICATION": "Needs Clarification",
+  "REJECTED": "Rejected",
+  "OVERDUE": "Overdue",
+  "PARTIAL": "Partial Payment",
+  "UNMATCHED": "Unmatched",
+  "ACCESS_ACTIVE": "Access Active",
+  "ACCESS_LOCKED": "Access Locked"
+}
