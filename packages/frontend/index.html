@@ -18,6 +18,27 @@
       type="font/woff2"
       crossorigin
     />
+    <script>
+      /*
+       * Pre-paint theme guard (FOUC prevention). Runs before React mounts and
+       * before first paint, applying the same precedence as
+       * `app/theme/theme-storage.ts`: stored `epapere_theme` -> system
+       * `prefers-color-scheme` -> light. ThemeContext takes over after mount.
+       */
+      (function () {
+        try {
+          var stored = localStorage.getItem('epapere_theme');
+          var dark =
+            stored === 'dark' ||
+            (stored !== 'light' &&
+              window.matchMedia &&
+              window.matchMedia('(prefers-color-scheme: dark)').matches);
+          if (dark) document.documentElement.classList.add('dark');
+        } catch (e) {
+          /* storage unavailable: fall through to the light default */
+        }
+      })();
+    </script>
   </head>
   <body>
     <div id="root"></div>

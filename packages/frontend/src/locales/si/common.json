@@ -1,0 +1,76 @@
+{
+  "app": {
+    "name": "e-Paperé"
+  },
+  "skipLink": "ප්‍රධාන අන්තර්ගතයට යන්න",
+  "topbar": {
+    "openMenu": "සංචාලන මෙනුව විවෘත කරන්න",
+    "closeMenu": "සංචාලන මෙනුව වසන්න",
+    "language": {
+      "switchToEnglish": "Switch to English",
+      "switchToSinhala": "සිංහලට මාරු වන්න"
+    },
+    "theme": {
+      "switchToDark": "අඳුරු ප්‍රකාරයට මාරු වන්න",
+      "switchToLight": "ආලෝක ප්‍රකාරයට මාරු වන්න"
+    },
+    "notifications": "දැනුම්දීම්",
+    "account": "ගිණුම් මෙනුව"
+  },
+  "nav": {
+    "mainLabel": "ප්‍රධාන සංචාලනය",
+    "home": "මුල් පිටුව",
+    "dashboard": "උපකරණ පුවරුව",
+    "courses": "පාඨමාලා",
+    "myCourses": "මගේ පාඨමාලා",
+    "browse": "පාඨමාලා බලන්න",
+    "schedule": "කාලසටහන",
+    "payments": "ගෙවීම්",
+    "notifications": "දැනුම්දීම්",
+    "account": "ගිණුම",
+    "profile": "පැතිකඩ",
+    "help": "උදව්",
+    "queue": "සත්‍යාපන පෝලිම",
+    "approved": "අනුමත",
+    "clarification": "පැහැදිලි කිරීම්",
+    "rejected": "ප්‍රතික්ෂේප",
+    "unmatched": "නොගැළපෙන",
+    "audit": "විගණන සටහන",
+    "summaries": "ගෙවීම් සාරාංශ",
+    "students": "සිසුන්",
+    "enrollments": "ලියාපදිංචි කිරීම්",
+    "invoices": "ඉන්වොයිස",
+    "teachers": "ගුරුවරුන්",
+    "migration": "සංක්‍රමණය",
+    "templates": "WhatsApp අච්චු",
+    "config": "පද්ධති වින්‍යාසය",
+    "accessPolicy": "ප්‍රවේශ ප්‍රතිපත්තිය"
+  },
+  "landing": {
+    "title": "e-Paperé ඔන්ලයින් ආයතනය",
+    "subtitle": "සිසු කළමනාකරණ සහ ඉගෙනුම් ද්වාරය.",
+    "returnNotice": "{{path}} වෙත යාමට කරුණාකර පිවිසෙන්න.",
+    "signInPlaceholder": "පිවිසීම පසු නිකුතුවකදී ලබා ගත හැකිය."
+  },
+  "accessRestricted": {
+    "title": "ප්‍රවේශය සීමිතයි",
+    "body": "මෙම පිටුව බැලීමට ඔබට අවසර නැත.",
+    "goToDashboard": "ඔබේ උපකරණ පුවරුවට යන්න"
+  },
+  "notFound": {
+    "title": "පිටුව හමු නොවීය",
+    "body": "ඔබ සොයන පිටුව නොපවතී.",
+    "goHome": "මුල් පිටුවට යන්න"
+  },
+  "roles": {
+    "STUDENT": "සිසුවා",
+    "TEACHER": "ගුරුවරයා",
+    "FINANCE_ADMIN": "මූල්‍ය පරිපාලක",
+    "ADMINISTRATOR": "පරිපාලක",
+    "SUPER_ADMINISTRATOR": "හිමිකරු"
+  },
+  "placeholder": {
+    "comingSoon": "මෙම උපකරණ පුවරුව ඉක්මනින් පැමිණේ.",
+    "roleDashboard": "{{role}} උපකරණ පුවරුව"
+  }
+}

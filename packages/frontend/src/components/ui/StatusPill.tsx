@@ -1,7 +1,7 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { cx } from './cx';
 import {
-  statusLabels,
   statusToken,
   isStatusKey,
   type StatusKey,
@@ -12,21 +12,23 @@ import {
 /**
  * StatusPill — a semantic status badge (DESIGN.md "Status Pills / Badges").
  *
- * This is the ONE component carrying a bilingual label (via `status-labels.ts`)
- * as a self-contained Story-1.7 stopgap. The `lang` prop defaults to `'en'`
- * until the app-wide language context exists.
+ * Label resolution (Story 1.7 i18n migration):
+ *   - no `lang` prop  → resolves via the app language context (`t('status:KEY')`)
+ *   - `lang` provided → resolves THAT language explicitly (`getFixedT(lang)`),
+ *     preserving the Story-1.6 `<StatusPill status="APPROVED" lang="si" />` API.
  *
  * Colors resolve from `statusToken[status]` to a Story 1.5 semantic token pair:
- *   bg  -> `--color-{token}-bg`
- *   text-> `--color-{token}`
- *   dot/border -> `--color-{token}-border`
+ *   bg  -> `--color-{token}-bg`, text -> `--color-{token}`, dot/border -> `--color-{token}-border`.
  *
  * Unknown `status` -> renders nothing + a dev-only console warning.
  */
 
 export interface StatusPillProps {
   status: StatusKey;
-  /** Label language. Defaults to `'en'` (Story 1.7 will source this from context). */
+  /**
+   * Force a specific label language. Omit to follow the app language (the
+   * normal case). Retained for backward compatibility with Story 1.6.
+   */
   lang?: StatusLang;
   className?: string;
 }
@@ -53,11 +55,9 @@ const borderClass: Record<StatusTokenName, string> = {
   info: 'border-info-border',
 };
 
-export function StatusPill({
-  status,
-  lang = 'en',
-  className,
-}: StatusPillProps): React.JSX.Element | null {
+export function StatusPill({ status, lang, className }: StatusPillProps): React.JSX.Element | null {
+  const { t, i18n } = useTranslation('status');
+
   if (!isStatusKey(status)) {
     if (import.meta.env.DEV) {
       // eslint-disable-next-line no-console
@@ -67,14 +67,13 @@ export function StatusPill({
   }
 
   const token = statusToken[status];
-  const label = statusLabels[status][lang];
+  // Explicit `lang` → fixed translator for that language; else the app language.
+  const label = lang ? i18n.getFixedT(lang, 'status')(status) : t(status);
 
   return (
     <span
       className={cx(
-        // Fully-rounded pill (DESIGN.md "Status Pills / Badges": border-radius
-        // 9999px). Compact non-status badges/chips use --radius-sm (4px); status
-        // pills are the deliberate exception — resolved 2026-10-28.
+        // Fully-rounded pill (DESIGN.md "Status Pills / Badges": 9999px).
         'inline-flex items-center gap-1 rounded-full border px-[9px] py-[3px] text-xs font-semibold',
         bgClass[token],
         textClass[token],
