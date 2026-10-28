@@ -1,0 +1,159 @@
+/*
+ * Semantic design tokens — AUTHORITATIVE SOURCE: DESIGN.md (AD-10).
+ *
+ * Every value here is copied verbatim from
+ * `_bmad-output/ux/ux-epapere-2026-10-16/DESIGN.md`. Do NOT edit hex values in
+ * isolation — change DESIGN.md first, then copy the value here.
+ *
+ * Color tokens are declared twice:
+ *   :root  -> Light Mode values (DESIGN.md "Light Mode — Semantic Token Map")
+ *   .dark  -> Dark Mode values  (DESIGN.md "Dark Mode — Semantic Token Map")
+ * Dark mode is NOT an inversion; it is a purpose-built dark-surface system.
+ *
+ * The `.dark` class is toggled on <html> by ThemeContext (Story 1.7 / AD-9).
+ * Components reference token names only — raw hex in component code is forbidden.
+ */
+
+:root {
+  /* ---- Brand ---- */
+  --color-brand: #3e3a98;
+  --color-brand-hover: #4a46c8;
+  --color-brand-active: #3230a0;
+  --color-brand-tint: #eae8ff;
+  --color-brand-subtle: #f0eeff;
+
+  /* ---- Surfaces & structure ---- */
+  --color-bg: #f8f7fd;
+  --color-surface: #ffffff;
+  --color-surface-elevated: #fafafe;
+  --color-border: #e8e6ff;
+  --color-border-strong: #c7c4f0;
+
+  /* ---- Text ---- */
+  --color-text: #1a1a2e;
+  --color-text-muted: #6b6b8a;
+  --color-text-disabled: #b0aed8;
+
+  /* ---- Status: success ---- */
+  --color-success: #15803d;
+  --color-success-bg: #dcfce7;
+  --color-success-border: #86efac;
+
+  /* ---- Status: warning ---- */
+  --color-warning: #92400e;
+  --color-warning-bg: #fef9c3;
+  --color-warning-border: #fde68a;
+
+  /* ---- Status: danger ---- */
+  --color-danger: #991b1b;
+  --color-danger-bg: #fee2e2;
+  --color-danger-border: #fca5a5;
+
+  /* ---- Status: info ---- */
+  --color-info: #5b21b6;
+  --color-info-bg: #ede9fe;
+  --color-info-border: #c4b5fd;
+
+  /* ---- Disabled ---- */
+  --color-disabled-bg: #f3f2fc;
+  --color-disabled-border: #dddaf5;
+
+  /* ---- Typography: font stacks ---- */
+  --font-sans-en: 'Inter', 'Segoe UI', system-ui, sans-serif;
+  --font-sans-si: 'Noto Sans Sinhala', 'Noto Sans', sans-serif;
+
+  /* ---- Typography: size scale ---- */
+  --text-xs: 11px;
+  --text-sm: 12px;
+  --text-base: 13px;
+  --text-md: 14px;
+  --text-lg: 16px;
+  --text-xl: 20px;
+  --text-2xl: 24px;
+  --text-3xl: 32px;
+
+  /* ---- Typography: weights ---- */
+  --weight-normal: 400;
+  --weight-medium: 500;
+  --weight-semibold: 600;
+  --weight-bold: 700;
+  --weight-extrabold: 800;
+
+  /* ---- Typography: line heights ---- */
+  --leading-base: 1.5;
+  --leading-sinhala: 1.75;
+  --leading-heading: 1.2;
+
+  /* ---- Radius ---- */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+  --radius-full: 9999px;
+
+  /* ---- Spacing (4px base grid) ---- */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-10: 40px;
+  --space-12: 48px;
+
+  /* ---- Component dimensions ---- */
+  --button-height: 36px;
+  --button-height-sm: 28px;
+  --input-height: 38px;
+  --sidebar-width: 210px;
+  --topbar-height: 52px;
+  --mobile-nav-height: 60px;
+  --touch-target-min: 44px;
+  --focus-ring-offset: 2px;
+}
+
+.dark {
+  /* ---- Brand ---- */
+  --color-brand: #6562e8;
+  --color-brand-hover: #7572f0;
+  --color-brand-active: #5452d8;
+  --color-brand-tint: #252347;
+  --color-brand-subtle: #1e1d3a;
+
+  /* ---- Surfaces & structure ---- */
+  --color-bg: #13122a;
+  --color-surface: #171630;
+  --color-surface-elevated: #1e1d3a;
+  --color-border: #252347;
+  --color-border-strong: #3a3870;
+
+  /* ---- Text ---- */
+  --color-text: #e0deff;
+  --color-text-muted: #8080a8;
+  --color-text-disabled: #4a4880;
+
+  /* ---- Status: success ---- */
+  --color-success: #34d399;
+  --color-success-bg: #052e16;
+  --color-success-border: #86efac;
+
+  /* ---- Status: warning ---- */
+  --color-warning: #fbbf24;
+  --color-warning-bg: #451a03;
+  --color-warning-border: #fde68a;
+
+  /* ---- Status: danger ---- */
+  --color-danger: #f87171;
+  --color-danger-bg: #3b0707;
+  --color-danger-border: #fca5a5;
+
+  /* ---- Status: info ---- */
+  --color-info: #a78bfa;
+  --color-info-bg: #2e1065;
+  --color-info-border: #c4b5fd;
+
+  /* ---- Disabled ---- */
+  --color-disabled-bg: #1a1935;
+  --color-disabled-border: #252347;
+}

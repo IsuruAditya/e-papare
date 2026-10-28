@@ -1,0 +1,142 @@
+/*
+ * Frontend CSS entry — imported once from `main.tsx`.
+ *
+ * Load order matters:
+ *   1. Tailwind v4 core.
+ *   2. Dark-mode custom variant (AD-46): `@custom-variant dark` with `:where()`
+ *      (zero specificity) scoped to `.dark` on <html>. NEVER a tailwind.config
+ *      darkMode key, never `@variant`, never `:is()`.
+ *   3. Self-hosted @font-face declarations.
+ *   4. Semantic design tokens (DESIGN.md / AD-10).
+ *   5. `@theme` mapping so Tailwind utilities resolve to the semantic CSS vars.
+ *   6. Base-layer defaults (canvas, text, font families, Sinhala rules).
+ */
+
+@import 'tailwindcss';
+@custom-variant dark (&:where(.dark, .dark *));
+@import './fonts.css';
+@import './tokens.css';
+
+/*
+ * Map Tailwind utility namespaces to the semantic tokens. Utilities resolve to
+ * `var(--color-*)`; because `.dark` reassigns those same variables, a single
+ * class set (e.g. `bg-surface text-brand`) themes correctly in both modes with
+ * no per-theme component variants (DESIGN.md "Don't create separate variants").
+ */
+@theme {
+  /* Colors -> `bg-*`, `text-*`, `border-*`, `fill-*`, etc. */
+  --color-brand: var(--color-brand);
+  --color-brand-hover: var(--color-brand-hover);
+  --color-brand-active: var(--color-brand-active);
+  --color-brand-tint: var(--color-brand-tint);
+  --color-brand-subtle: var(--color-brand-subtle);
+
+  --color-bg: var(--color-bg);
+  --color-surface: var(--color-surface);
+  --color-surface-elevated: var(--color-surface-elevated);
+  --color-border: var(--color-border);
+  --color-border-strong: var(--color-border-strong);
+
+  --color-text: var(--color-text);
+  --color-text-muted: var(--color-text-muted);
+  --color-text-disabled: var(--color-text-disabled);
+
+  --color-success: var(--color-success);
+  --color-success-bg: var(--color-success-bg);
+  --color-success-border: var(--color-success-border);
+  --color-warning: var(--color-warning);
+  --color-warning-bg: var(--color-warning-bg);
+  --color-warning-border: var(--color-warning-border);
+  --color-danger: var(--color-danger);
+  --color-danger-bg: var(--color-danger-bg);
+  --color-danger-border: var(--color-danger-border);
+  --color-info: var(--color-info);
+  --color-info-bg: var(--color-info-bg);
+  --color-info-border: var(--color-info-border);
+
+  --color-disabled-bg: var(--color-disabled-bg);
+  --color-disabled-border: var(--color-disabled-border);
+
+  /* Font families -> `font-sans`, `font-sinhala`. */
+  --font-sans: var(--font-sans-en);
+  --font-sinhala: var(--font-sans-si);
+
+  /* Type scale -> `text-xs` ... `text-3xl`. */
+  --text-xs: var(--text-xs);
+  --text-sm: var(--text-sm);
+  --text-base: var(--text-base);
+  --text-md: var(--text-md);
+  --text-lg: var(--text-lg);
+  --text-xl: var(--text-xl);
+  --text-2xl: var(--text-2xl);
+  --text-3xl: var(--text-3xl);
+
+  /* Font weights -> `font-normal` ... `font-extrabold`. */
+  --font-weight-normal: var(--weight-normal);
+  --font-weight-medium: var(--weight-medium);
+  --font-weight-semibold: var(--weight-semibold);
+  --font-weight-bold: var(--weight-bold);
+  --font-weight-extrabold: var(--weight-extrabold);
+
+  /* Radius -> `rounded-sm` ... `rounded-full`. */
+  --radius-sm: var(--radius-sm);
+  --radius-md: var(--radius-md);
+  --radius-lg: var(--radius-lg);
+  --radius-xl: var(--radius-xl);
+  --radius-full: var(--radius-full);
+
+  /* Spacing (4px grid) -> `p-1`, `gap-4`, `m-12`, etc. */
+  --spacing-1: var(--space-1);
+  --spacing-2: var(--space-2);
+  --spacing-3: var(--space-3);
+  --spacing-4: var(--space-4);
+  --spacing-5: var(--space-5);
+  --spacing-6: var(--space-6);
+  --spacing-8: var(--space-8);
+  --spacing-10: var(--space-10);
+  --spacing-12: var(--space-12);
+}
+
+/*
+ * Base-layer defaults. Semantic tokens only — no raw hex.
+ */
+@layer base {
+  html {
+    /* English is the default document language; Story 1.7 updates `lang` at
+       runtime on language switch. */
+    font-family: var(--font-sans-en);
+    line-height: var(--leading-base);
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    margin: 0;
+    background-color: var(--color-bg);
+    color: var(--color-text);
+    font-size: var(--text-md);
+    font-family: var(--font-sans-en);
+    line-height: var(--leading-base);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* Sinhala typography rules (DESIGN.md).
+     When the document language is Sinhala, switch the root family to the Sinhala
+     stack, raise line-height for vowel diacritics, and strip transforms/tracking
+     that degrade Sinhala glyph joining. */
+  html[lang='si'] {
+    font-family: var(--font-sans-si);
+  }
+
+  html[lang='si'] body {
+    font-family: var(--font-sans-si);
+    line-height: var(--leading-sinhala);
+    letter-spacing: normal;
+    text-transform: none;
+  }
+
+  /* Inline English spans inside a Sinhala page opt back into the Latin stack. */
+  html[lang='si'] [lang='en'] {
+    font-family: var(--font-sans-en);
+  }
+}
