@@ -192,6 +192,26 @@
       no-repeat center / contain;
   }
 
+  /*
+   * Today's Class banner gradient (DESIGN.md "Today's Class Banner"). The brand
+   * gradient hex pairs are DESIGN.md-sanctioned for THIS surface only; keeping
+   * them in one utility (rather than inline in the component) mirrors the
+   * `.ep-skeleton` pattern and themes via `.dark` reassignment — no `dark:`
+   * utility-variant needed, consistent with the rest of the token system.
+   *
+   * This utility currently has a single consumer (the dev-only Student Dashboard
+   * preview banner), so it is emitted into the production CSS bundle even though
+   * no production route references it yet. That is an accepted, harmless cost: it
+   * is the real Today's Class banner surface that Story 5.3 will adopt verbatim.
+   */
+  .ep-todays-class {
+    background: linear-gradient(135deg, #3e3a98 0%, #5551c8 100%);
+  }
+
+  .dark .ep-todays-class {
+    background: linear-gradient(135deg, #2d2a7a 0%, #4a46c8 100%);
+  }
+
   .ep-skeleton {
     background: linear-gradient(
       90deg,

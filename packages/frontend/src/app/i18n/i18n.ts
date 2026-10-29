@@ -6,6 +6,8 @@ import enCommon from '../../locales/en/common.json';
 import siCommon from '../../locales/si/common.json';
 import enStatus from '../../locales/en/status.json';
 import siStatus from '../../locales/si/status.json';
+import enDashboard from '../../locales/en/dashboard.json';
+import siDashboard from '../../locales/si/dashboard.json';
 
 /**
  * i18next instance (AD-6, AD-7).
@@ -17,12 +19,26 @@ import siStatus from '../../locales/si/status.json';
  * a raw key (`returnNull: false`).
  */
 
-export const NAMESPACES = ['common', 'status'] as const;
+/**
+ * The `dashboard` namespace is DEV-ONLY: it holds the strings for the Student
+ * Dashboard UI/UX preview (`/preview/student`), which never ships to production
+ * (see `routes.tsx`). Gating it on `import.meta.env.DEV` means Vite tree-shakes
+ * both the namespace registration AND the imported JSON out of production
+ * builds, so no preview copy leaks into the shipped bundle. `validate-i18n`
+ * still checks the on-disk locale files, so en/si parity remains enforced.
+ */
+const DEV_NAMESPACES = import.meta.env.DEV ? (['dashboard'] as const) : ([] as const);
+
+export const NAMESPACES = ['common', 'status', ...DEV_NAMESPACES] as const;
 export const DEFAULT_NAMESPACE = 'common';
 
+const devResources = import.meta.env.DEV
+  ? { en: { dashboard: enDashboard }, si: { dashboard: siDashboard } }
+  : { en: {}, si: {} };
+
 export const resources = {
-  en: { common: enCommon, status: enStatus },
-  si: { common: siCommon, status: siStatus },
+  en: { common: enCommon, status: enStatus, ...devResources.en },
+  si: { common: siCommon, status: siStatus, ...devResources.si },
 } as const;
 
 let initialized = false;

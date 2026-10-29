@@ -22,7 +22,17 @@ import { useRouteFocus } from './useRouteFocus';
  * Rendered only under a `ProtectedRoute`, so `role` is always present; a
  * defensive guard keeps TypeScript honest and avoids a crash if misused.
  */
-export function AppLayout(): React.JSX.Element | null {
+export interface AppLayoutProps {
+  /**
+   * Content to render in the main region. Normally omitted: routed pages arrive
+   * via the router `<Outlet>`. The dev-only dashboard preview passes its content
+   * directly as `children` so it can mount the shell without a router outlet
+   * (it supplies its own nested AuthProvider). Production routing is unaffected.
+   */
+  children?: React.ReactNode;
+}
+
+export function AppLayout({ children }: AppLayoutProps = {}): React.JSX.Element | null {
   const { t } = useTranslation('common');
   const { role } = useAuth();
   const [drawerOpen, setDrawerOpen] = useState(false);
@@ -42,9 +52,7 @@ export function AppLayout(): React.JSX.Element | null {
         <Sidebar role={role} />
 
         <main id="main-content" ref={mainRef} tabIndex={-1} className={cxMain(isStudent)}>
-          <div className="mx-auto w-full max-w-[1200px]">
-            <Outlet />
-          </div>
+          <div className="mx-auto w-full max-w-[1200px]">{children ?? <Outlet />}</div>
         </main>
       </div>
 
