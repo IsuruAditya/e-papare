@@ -47,11 +47,16 @@ export function Topbar({ showMenuButton, onOpenMenu }: TopbarProps): React.JSX.E
         <span className="flex items-center gap-2">
           <span
             aria-hidden="true"
-            className="flex h-[30px] w-[30px] items-center justify-center rounded-md bg-brand text-sm font-bold text-white"
+            className="flex h-[30px] w-[30px] shrink-0 items-center justify-center rounded-md bg-brand text-sm font-bold text-white"
           >
             eP
           </span>
-          <span className="text-lg font-bold text-text">{t('app.name')}</span>
+          {/* Brand wordmark never wraps (DESIGN.md brand integrity). On the
+              narrowest widths the `eP` mark stands in for it so the topbar
+              controls never crowd or force the document to scroll. */}
+          <span className="hidden text-lg font-bold whitespace-nowrap text-text min-[420px]:inline">
+            {t('app.name')}
+          </span>
         </span>
       </div>
 

@@ -48,9 +48,42 @@ function roleBranch({ path, role }: { path: string; role: Role }): RouteObject {
   };
 }
 
+/**
+ * Dev-only preview routes (NOT part of the product).
+ *
+ * The whole block — including the dynamic `import()` of the preview module — is
+ * guarded by `import.meta.env.DEV`. Vite statically replaces that flag with the
+ * literal `false` in production, turning this into dead code; Rollup then drops
+ * the branch AND the now-unreachable dynamic import, so no preview chunk and no
+ * mock data are emitted into the production bundle. The route is therefore
+ * unreachable in production and absent from the build output. See
+ * `preview/student/PreviewRoute.tsx`.
+ */
+function buildDevPreviewRoutes(): RouteObject[] {
+  if (!import.meta.env.DEV) return [];
+
+  const PreviewRoute = React.lazy(() =>
+    import('../../preview/student/PreviewRoute').then((m) => ({ default: m.PreviewRoute })),
+  );
+
+  return [
+    {
+      path: '/preview/student',
+      element: (
+        <React.Suspense fallback={null}>
+          <PreviewRoute />
+        </React.Suspense>
+      ),
+    },
+  ];
+}
+
+const devPreviewRoutes: RouteObject[] = buildDevPreviewRoutes();
+
 export const routes: RouteObject[] = [
   { path: '/', element: <Landing /> },
   ...roleRoots.map(roleBranch),
+  ...devPreviewRoutes,
   { path: '*', element: <NotFound /> },
 ];
 

@@ -1,0 +1,189 @@
+{
+  "preview": {
+    "demoBadge": "Demo preview",
+    "banner": {
+      "title": "UI/UX preview — demo data only",
+      "body": "This is a development-only preview of the student dashboard. All students, classes, payments, and links shown here are fictional. No real accounts, payments, or Zoom sessions are involved."
+    },
+    "controls": {
+      "legend": "Preview controls",
+      "state": "Render state",
+      "states": {
+        "loaded": "Loaded",
+        "loading": "Loading",
+        "empty": "Empty",
+        "error": "Error"
+      }
+    },
+    "loadingLabel": "Loading dashboard…"
+  },
+  "welcome": {
+    "greetingMorning": "Good morning, {{name}}",
+    "greetingAfternoon": "Good afternoon, {{name}}",
+    "greetingEvening": "Good evening, {{name}}",
+    "subtitle": "Here is what is happening with your learning today.",
+    "epIdLabel": "Student ID",
+    "gradeLabel": "Grade",
+    "gradeValue": "Grade {{grade}}",
+    "monthLabel": "Enrollment month",
+    "accountLabel": "Account",
+    "accessLabel": "Course access"
+  },
+  "todaysClass": {
+    "eyebrow": "Today's class",
+    "teacherWith": "with {{teacher}}",
+    "join": "Join now",
+    "joinAria": "Join today's class: {{subject}} Grade {{grade}}, {{time}}",
+    "soonLabel": "Starts at {{time}}",
+    "notJoinableNote": "The join link opens 10 minutes before class starts.",
+    "none": {
+      "title": "No class scheduled today",
+      "body": "Enjoy the break. Your next session details appear below."
+    }
+  },
+  "subjectCards": {
+    "title": "My subjects",
+    "viewAll": "View all courses",
+    "filters": {
+      "label": "Filter subjects by access",
+      "all": "All",
+      "active": "Active",
+      "locked": "Locked"
+    },
+    "open": "Open course",
+    "uploadSlip": "Upload slip",
+    "locked": "Content locked",
+    "waiting": "Awaiting payment verification",
+    "nextLabel": "Next",
+    "next": {
+      "monAfternoon": "Mon 4:00 PM",
+      "wedAfternoon": "Wed 4:00 PM",
+      "thuEvening": "Thu 6:00 PM"
+    },
+    "filteredEmpty": {
+      "title": "No subjects match this filter",
+      "body": "Try a different filter to see your other subjects."
+    },
+    "empty": {
+      "title": "No subjects yet",
+      "body": "Browse the course catalogue to enrol in your first subject.",
+      "cta": "Browse courses"
+    }
+  },
+  "schedule": {
+    "title": "Upcoming schedule",
+    "viewAll": "Full schedule",
+    "todayTag": "Today",
+    "upcomingTag": "Upcoming",
+    "columns": {
+      "subject": "Subject",
+      "day": "Day",
+      "date": "Date",
+      "time": "Time"
+    },
+    "days": {
+      "mon": "Monday",
+      "tue": "Tuesday",
+      "wed": "Wednesday",
+      "thu": "Thursday",
+      "fri": "Friday",
+      "sat": "Saturday",
+      "sun": "Sunday"
+    },
+    "empty": {
+      "title": "Nothing scheduled",
+      "body": "Upcoming classes for your enrolled subjects will show here."
+    }
+  },
+  "resources": {
+    "title": "Learning resources",
+    "viewAll": "All resources",
+    "open": "Open",
+    "kind": {
+      "recording": "Recording",
+      "material": "Study material"
+    },
+    "addedToday": "Added today",
+    "addedDaysAgo_one": "Added {{count}} day ago",
+    "addedDaysAgo_other": "Added {{count}} days ago",
+    "items": {
+      "mathRecording": "Algebra — recorded lesson",
+      "scienceNotes": "Chemical reactions — study notes",
+      "mathWorksheet": "Quadratic equations — worksheet",
+      "scienceRecording": "Forces and motion — recorded lesson"
+    },
+    "empty": {
+      "title": "No resources yet",
+      "body": "Lesson recordings and study materials appear here once your teacher adds them."
+    }
+  },
+  "payments": {
+    "title": "Payments & access",
+    "viewAll": "All payments",
+    "columns": {
+      "invoice": "Invoice",
+      "month": "Month",
+      "amount": "Amount",
+      "due": "Due",
+      "status": "Status"
+    },
+    "dueBy": "Due by {{date}}",
+    "note": {
+      "approved": "Your payment is approved and course access is active.",
+      "pending": "Your payment is submitted and awaiting verification by the finance team.",
+      "overdue": "This payment is overdue and some content is locked. Upload your slip to restore access."
+    },
+    "empty": {
+      "title": "No invoices yet",
+      "body": "Your monthly invoices appear here once you enrol in a subject."
+    }
+  },
+  "announcements": {
+    "title": "Announcements",
+    "viewAll": "View all",
+    "when": {
+      "today": "Today",
+      "yesterday": "Yesterday",
+      "daysAgo": "3 days ago"
+    },
+    "items": {
+      "holidayTitle": "Public holiday — no classes on 1 November",
+      "holidayBody": "All live sessions on Friday 1 November are rescheduled. Recordings for missed lessons will be posted the same evening.",
+      "examTitle": "Term test timetable released",
+      "examBody": "The Grade 9 term test begins on 18 November. Check the schedule page for your subject-wise sitting times.",
+      "resourceTitle": "New worksheets added for Mathematics",
+      "resourceBody": "Practice worksheets for quadratic equations are now available under your Mathematics resources."
+    },
+    "empty": {
+      "title": "No announcements",
+      "body": "Institute notices and class updates will appear here."
+    }
+  },
+  "errorState": {
+    "title": "Something went wrong",
+    "body": "We could not load your dashboard. Check your connection and try again.",
+    "retry": "Try again",
+    "code": "Reference: ERR_PREVIEW_DEMO"
+  },
+  "demoDialog": {
+    "title": "Join class (demo)",
+    "body": "In the real dashboard this opens the live Zoom session for {{subject}}. This preview uses demo data, so no real classroom link is opened.",
+    "close": "Close",
+    "ok": "Got it"
+  },
+  "student": {
+    "name": "Kavya Amarasinghe"
+  },
+  "subjects": {
+    "mathematics": "Mathematics",
+    "science": "Science",
+    "sinhala": "Sinhala",
+    "ict": "ICT"
+  },
+  "teachers": {
+    "perera": "Mr. Perera",
+    "fernando": "Ms. Fernando",
+    "silva": "Mr. Silva",
+    "jayawardena": "Ms. Jayawardena"
+  }
+}
